@@ -3,6 +3,7 @@ package ehersenaw.com.github.shoose;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +30,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.nhn.android.naverlogin.OAuthLogin;
+import com.nhn.android.naverlogin.OAuthLoginHandler;
+import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +42,9 @@ import java.util.List;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
- * A login screen that offers login via email/password.
+ * A login screen that offers login via id/password.
+ * NAVER login API reference: https://developers.naver.com/docs/login/android/
+ *
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
@@ -49,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
+            "foo1234:hello", "bar5678:world"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -65,11 +74,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // Customized UI.
     private AutoCompleteTextView mIDView;
 
+    // Naver OAuth
+    private static OAuthLogin mOAuthLoginInstance;
+    private OAuthLoginButton mOAuthLoginButton;
+    private static Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+
+        mContext = this;
+
         // Set up the login form.
+        initData();
+
+
+        setContentView(R.layout.activity_login);
         // mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mIDView = (AutoCompleteTextView) findViewById(R.id.ID);
         // populateAutoComplete();
@@ -95,9 +115,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
             }
         });
+        
+        mOAuthLoginButton = (OAuthLoginButton) findViewById(R.id.buttonOAuthLoginImg);
+        OAuthLoginHandler mOAuthLoginHandler;
+        mOAuthLoginButton.setOAuthLoginHandler(mOAuthLoginHandler);
+        // mOAuthLoginButton.setBgResourceId(R.drawable.img_loginbtn_usercustom);
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void initData() {
+        mOAuthLoginInstance = OAuthLogin.getInstance();
+
+        mOAuthLoginInstance.showDevelopersLog(true);
+        /*
+        * 배포 버전에서는 false로 바꿔 민감한 개인정보 유출 방지해야 함.
+        * */
+        mOAuthLoginInstance.init(
+                mContext
+                ,getString(R.string.OAUTH_CLIENT_ID)
+                ,getString(R.string.OAUTH_CLIENT_SECRET)
+                ,getString(R.string.OAUTH_CLIENT_NAME)
+        );
     }
 
     private void populateAutoComplete() {
@@ -197,8 +237,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isIDValid(String ID) {
-        //TODO: Replace this with your own logic
-        return ID.contains("@");
+        return ID.length() < 3;
     }
 
     private boolean isPasswordValid(String password) {
@@ -350,6 +389,66 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+    }
+
+    /*
+    * OAuthLoginButton에 등록하여 인증이 종료되는 걸 알 수 있다.
+    * */
+    private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
+        @Override
+        public void run(boolean success) {
+            if (success) {
+                String accessToken = mOAuthLoginInstance.getAccessToken(mContext);
+                String refreshToken = mOAuthLoginInstance.getRefreshToken(mContext);
+                long expiresAt = mOAuthLoginInstance.getExpiresAt(mContext);
+                String tokenType = mOAuthLoginInstance.getTokenType(mContext);
+            } else {
+                String errorCode = mOAuthLoginInstance.getLastErrorCode(mContext).getCode();
+                String errorDesc = mOAuthLoginInstance.getLastErrorDesc(mContext);
+                Toast.makeText(mContext, "errorCode:" + errorCode + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    };
+
+    public void onButtonClick(View v) throws Throwable {
+
+        switch (v.getId()) {
+            case R.id.buttonOAuthLogin: {
+                mOAuthLoginInstance.startOauthLoginActivity(LoginActivity.this, mOAuthLoginHandler);
+                break;
+            }
+            /*
+            case R.id.buttonOAuthLogout: {
+                mOAuthLoginInstance.logout(mContext);
+                updateView();
+                break;
+            }
+
+            case R.id.buttonOAuthDeleteToken: {
+                new DeleteTokenTask().execute();
+                break;
+            }
+            */
+            default:
+                break;
+        }
+    }
+
+    private class DeleteTokenTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            boolean isSuccessDeleteToken = mOAuthLoginInstance.logoutAndDeleteToken(mContext);
+
+            if (!isSuccessDeleteToken) {
+                // 서버에서 token 삭제에 실패했어도 클라이언트에 있는 token 은 삭제되어 로그아웃된 상태이다
+                // 실패했어도 클라이언트 상에 token 정보가 없기 때문에 추가적으로 해줄 수 있는 것은 없음
+                // Log.d(TAG, "errorCode:" + mOAuthLoginInstance.getLastErrorCode(mContext));
+                // Log.d(TAG, "errorDesc:" + mOAuthLoginInstance.getLastErrorDesc(mContext));
+            }
+
+            return null;
         }
     }
 }
