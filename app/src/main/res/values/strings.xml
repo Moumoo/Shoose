@@ -12,4 +12,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <!-- Strings added to login -->
+    <string name="prompt_ID">ID</string>
+    <string name="error_invalid_id">This ID is invalid</string>
 </resources>
