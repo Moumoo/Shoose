@@ -117,7 +117,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
         
         mOAuthLoginButton = (OAuthLoginButton) findViewById(R.id.buttonOAuthLoginImg);
-        OAuthLoginHandler mOAuthLoginHandler;
         mOAuthLoginButton.setOAuthLoginHandler(mOAuthLoginHandler);
         // mOAuthLoginButton.setBgResourceId(R.drawable.img_loginbtn_usercustom);
 
@@ -395,27 +394,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /*
     * OAuthLoginButton에 등록하여 인증이 종료되는 걸 알 수 있다.
     * */
+
     private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
         @Override
         public void run(boolean success) {
             if (success) {
+                /* 로그인 성공 */
                 String accessToken = mOAuthLoginInstance.getAccessToken(mContext);
                 String refreshToken = mOAuthLoginInstance.getRefreshToken(mContext);
                 long expiresAt = mOAuthLoginInstance.getExpiresAt(mContext);
                 String tokenType = mOAuthLoginInstance.getTokenType(mContext);
+                /* */
             } else {
+                /* 로그인 실패 */
                 String errorCode = mOAuthLoginInstance.getLastErrorCode(mContext).getCode();
                 String errorDesc = mOAuthLoginInstance.getLastErrorDesc(mContext);
                 Toast.makeText(mContext, "errorCode:" + errorCode + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show();
+                /* */
             }
         }
 
     };
 
+
     public void onButtonClick(View v) throws Throwable {
 
         switch (v.getId()) {
-            case R.id.buttonOAuthLogin: {
+            case R.id.buttonOAuthLoginImg: {
                 mOAuthLoginInstance.startOauthLoginActivity(LoginActivity.this, mOAuthLoginHandler);
                 break;
             }

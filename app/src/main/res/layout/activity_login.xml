@@ -74,7 +74,7 @@
                 android:textStyle="bold" />
 
             <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
-                android:id="@+id/buttonOAuthLogin"
+                android:id="@+id/buttonOAuthLoginImg"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp" />
 
