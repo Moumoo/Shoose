@@ -16,7 +16,7 @@
     <string name="prompt_ID">ID</string>
     <string name="error_invalid_id">This ID is invalid</string>
     <!-- Strings related to NAVER login -->
-    <string name="OAUTH_CLIENT_ID">jyvqXeaVOVmV</string>
-    <string name="OAUTH_CLIENT_SECRET">527300A0_C0q1_XV33cf</string>
-    <string name="OAUTH_CLIENT_NAME">네이버 아이디로 로그인</string>
+    <string name="OAUTH_CLIENT_ID">X2pxhrQfisBaj_zQdG9_</string>
+    <string name="OAUTH_CLIENT_SECRET">skgBAQbAYz</string>
+    <string name="OAUTH_CLIENT_NAME">Shoose</string>
 </resources>
