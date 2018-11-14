@@ -236,7 +236,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isIDValid(String ID) {
-        return ID.length() < 3;
+        return ID.length() > 3;
     }
 
     private boolean isPasswordValid(String password) {
@@ -422,6 +422,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         switch (v.getId()) {
             case R.id.buttonOAuthLoginImg: {
                 mOAuthLoginInstance.startOauthLoginActivity(LoginActivity.this, mOAuthLoginHandler);
+
                 break;
             }
             /*
