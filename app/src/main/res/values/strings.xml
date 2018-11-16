@@ -19,4 +19,18 @@
     <string name="OAUTH_CLIENT_ID">X2pxhrQfisBaj_zQdG9_</string>
     <string name="OAUTH_CLIENT_SECRET">skgBAQbAYz</string>
     <string name="OAUTH_CLIENT_NAME">Shoose</string>
+
+    <!-- Strings for login success/failure alert -->
+    <string name="login_success">Log in successed.</string>
+    <string name="login_failure">Log in failed.</string>
+
+
+    <!-- Strings for Tab activity -->
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="tab_text_4">Tab 4</string>
+    <string name="tab_text_5">Tab 5</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
