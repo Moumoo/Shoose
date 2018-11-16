@@ -19,4 +19,9 @@
     <string name="OAUTH_CLIENT_ID">X2pxhrQfisBaj_zQdG9_</string>
     <string name="OAUTH_CLIENT_SECRET">skgBAQbAYz</string>
     <string name="OAUTH_CLIENT_NAME">Shoose</string>
+
+    <!-- Strings for login success/failure alert -->
+    <string name="login_success">Log in successed.</string>
+    <string name="login_failure">Log in failed.</string>
+
 </resources>

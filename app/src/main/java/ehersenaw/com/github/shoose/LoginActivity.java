@@ -368,6 +368,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             // TODO: register the new account here.
+            // TODO: Needs support of DB.
             return true;
         }
 
@@ -422,7 +423,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         switch (v.getId()) {
             case R.id.buttonOAuthLoginImg: {
                 mOAuthLoginInstance.startOauthLoginActivity(LoginActivity.this, mOAuthLoginHandler);
-
                 break;
             }
             /*
