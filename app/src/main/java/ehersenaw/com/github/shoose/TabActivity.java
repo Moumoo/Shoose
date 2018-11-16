@@ -1,5 +1,6 @@
 package ehersenaw.com.github.shoose;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 public class TabActivity extends AppCompatActivity {
 
+    LoginActivity LA = (LoginActivity)LoginActivity._Login_Activity;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -40,6 +42,23 @@ public class TabActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
+
+        // Get intent from LoginActivity
+        Intent intent = getIntent();
+
+        // Check if this has NAVER OAuth
+        boolean hasNAVEROAuth = intent.getExtras().getBoolean("hasNAVEROAuth");
+
+        if (hasNAVEROAuth) {
+            // Get additional data
+            String accessToken = intent.getExtras().getString("accessToken");
+            String refreshToken = intent.getExtras().getString("refreshToken");
+            long expiresAt = intent.getExtras().getLong("expiresAt");
+            String tokenType = intent.getExtras().getString("tokenType");
+        }
+
+
+        LA.finish();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -144,8 +163,8 @@ public class TabActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 5 total pages.
+            return 5;
         }
     }
 }

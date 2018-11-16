@@ -3,7 +3,9 @@ package ehersenaw.com.github.shoose;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -48,6 +50,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    public static Activity _Login_Activity; /*To terminate this activity after moves to other activity*/
+    public static final int tab_sig = 1001; /*Signal code for launching "TabActivity"*/
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -84,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
 
         mContext = this;
+        _Login_Activity = LoginActivity.this; /*To terminate this activity, finish() with this value*/
 
         // Set up the login form.
         initData();
@@ -211,7 +216,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
-        // Check for a valid email address.
+        // Check for a valid ID.
         if (TextUtils.isEmpty(ID)) {
             mIDView.setError(getString(R.string.error_field_required));
             focusView = mIDView;
@@ -378,7 +383,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                finish();
+                /* Switch to TabActivity */
+                // Set Intent
+                Intent intent = new Intent(getApplicationContext(), TabActivity.class);
+                intent.putExtra("hasNAVEROAuth", false);
+                startActivity(intent);
+                //finish();
+                /* */
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -405,6 +416,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String refreshToken = mOAuthLoginInstance.getRefreshToken(mContext);
                 long expiresAt = mOAuthLoginInstance.getExpiresAt(mContext);
                 String tokenType = mOAuthLoginInstance.getTokenType(mContext);
+                /* */
+                /* Switch to TabActivity */
+                // Set Intent
+                Intent intent = new Intent(getApplicationContext(), TabActivity.class);
+                // Set informations to send to TabActivity
+                intent.putExtra("hasNAVEROAuth", true);
+                intent.putExtra("accessToken", accessToken);
+                intent.putExtra("refreshToken", refreshToken);
+                intent.putExtra("expiresAt", expiresAt);
+                intent.putExtra("tokenType", tokenType);
+
+                startActivity(intent);
                 /* */
             } else {
                 /* 로그인 실패 */
