@@ -1,0 +1,3 @@
+[submodule "shoose-server"]
+	path = shoose-server
+	url = https://github.com/minSW/shoose-server
