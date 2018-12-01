@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="price_range">
+        <item>전체</item>
+        <item>50,000원 이하</item>
+        <item>50,000 ~ 100,000</item>
+        <item>100,000 ~ 150,000</item>
+        <item>150,000 ~ 200,000</item>
+        <item>200,000원 이상</item>
+    </string-array>
+
+    <string-array name="style">
+        <item>전체</item>
+        <item>캔버스/단화</item>
+        <item>부츠</item>
+        <item>힐/펌프스</item>
+        <item>로퍼</item>
+        <item>구두</item>
+        <item>런닝/피트니스화</item>
+        <item>농구화</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="brand">
+        <item>전체</item>
+        <item>나이키</item>
+        <item>아디다스</item>
+        <item>반스</item>
+        <item>언더아머</item>
+        <item>팀버랜드</item>
+        <item>닥터마틴</item>
+        <item>닥스</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="sort">
+        <item>인기순</item>
+        <item>낮은 가격순</item>
+        <item>높은 가격순</item>
+        <item>평가순</item>
+
+    </string-array>
+
+</resources>

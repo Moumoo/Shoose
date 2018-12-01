@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -76,6 +77,7 @@ public class TabActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                Log.d("kdy0962", "onTabSelected: 1"+tab.getPosition());
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -91,14 +93,14 @@ public class TabActivity extends AppCompatActivity {
 
     }
 
-
+    //탭관련코드
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_tab, menu);
         return true;
     }
-
+    //탭관련코드
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
