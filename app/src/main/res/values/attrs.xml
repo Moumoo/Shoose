@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="productLayout">
+        <attr name="product_SN" format="reference|string" />
+        <attr name="name" format="reference|string" />
+        <attr name="price" format="reference|string" />
+        <attr name="type" format="reference|string" />
+        <attr name="brand" format="reference|string" />
+    </declare-styleable>
+</resources>
