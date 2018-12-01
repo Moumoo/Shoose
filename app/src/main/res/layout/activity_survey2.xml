@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            //선호하는 색상
+            <TableRow android:layout_weight="1">
+                <EditText
+                    android:id="@+id/color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="20dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text=" 당신이 선호하는 색상은?"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/color_red"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="빨강색" />
+
+                <CheckBox
+                    android:id="@+id/color_orange"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="주황색" />
+
+                <CheckBox
+                    android:id="@+id/color_yellow"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="노랑색" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/color_gold"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="금색" />
+
+                <CheckBox
+                    android:id="@+id/color_silver"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="은색" />
+
+                <CheckBox
+                    android:id="@+id/color_yellowishGreen"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="연두색" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/color_green"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="초록색" />
+
+                <CheckBox
+                    android:id="@+id/color_skyBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="하늘색" />
+
+                <CheckBox
+                    android:id="@+id/color_blue"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="파랑색" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/color_darkBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="남색" />
+
+                <CheckBox
+                    android:id="@+id/color_purple"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="보라색" />
+
+                <CheckBox
+                    android:id="@+id/color_beige"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="베이지색" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+            <CheckBox
+                android:id="@+id/color_white"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:onClick="onCheckboxClicked"
+                android:text="흰색" />
+
+            <CheckBox
+                android:id="@+id/color_gray"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:onClick="onCheckboxClicked"
+                android:text="회색" />
+
+            <CheckBox
+                android:id="@+id/color_black"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:onClick="onCheckboxClicked"
+                android:text="검정색" />
+            </TableRow>
+
+            //선호하는 브랜드
+            <TableRow android:layout_weight="1">
+                <EditText
+                    android:id="@+id/brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="25dp"
+                    android:ems="12"
+                    android:inputType="textPersonName"
+                    android:text=" 당신이 선호하는 브랜드는?"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/brand_nike"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="나이키" />
+
+                <CheckBox
+                    android:id="@+id/brand_adidas"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="아디다스"/>
+
+                <CheckBox
+                    android:id="@+id/brand_fila"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="휠라"/>
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/brand_converse"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="컨버스" />
+
+                <CheckBox
+                    android:id="@+id/brand_vans"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="반스" />
+
+                <CheckBox
+                    android:id="@+id/brand_reebok"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="리복" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/brand_puma"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="푸마" />
+
+                <CheckBox
+                    android:id="@+id/brand_lacoste"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="라코스테" />
+
+                <CheckBox
+                    android:id="@+id/brand_rockport"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="락포트" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/brand_rockfish"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="락피쉬" />
+
+                <CheckBox
+                    android:id="@+id/brand_crocs"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="크록스" />
+
+                <CheckBox
+                    android:id="@+id/brand_kose"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="고세" />
+            </TableRow>
+
+            //선호하는 신발 타입
+            <TableRow android:layout_weight="1">
+                <EditText
+                    android:id="@+id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="25dp"
+                    android:ems="12"
+                    android:inputType="textPersonName"
+                    android:text=" 당신이 선호하는 신발 타입은?"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/type_slippers"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="슬리퍼" />
+
+                <CheckBox
+                    android:id="@+id/type_sandals"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="샌들"/>
+
+                <CheckBox
+                    android:id="@+id/type_sneakers"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="스니커즈" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/type_slipon"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="슬립온" />
+
+                <CheckBox
+                    android:id="@+id/type_gym"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="운동화" />
+
+                <CheckBox
+                    android:id="@+id/type_loafers"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="로퍼" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/type_flat"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="플랫" />
+
+                <CheckBox
+                    android:id="@+id/type_hill"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="힐/펌프스" />
+
+                <CheckBox
+                    android:id="@+id/type_walkers"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="워커" />
+            </TableRow>
+
+            <TableRow android:layout_weight="1">
+                <CheckBox
+                    android:id="@+id/type_boat"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="보트슈즈" />
+
+                <CheckBox
+                    android:id="@+id/type_welt"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="웰트화" />
+
+                <CheckBox
+                    android:id="@+id/type_boots"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:onClick="onCheckboxClicked"
+                    android:text="부츠" />
+            </TableRow>
+
+            //페이지 버튼
+            <TableRow android:layout_weight="1">
+                <Button
+                    android:id="@+id/backButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="이전"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/nextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginLeft="150dp"
+                    android:text="다음"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+            </TableRow>
+
+        </TableLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
