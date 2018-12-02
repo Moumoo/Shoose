@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow android:layout_weight="0.3">
+            <EditText
+                android:id="@+id/sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text=" 당신의 성별은?"
+                android:textStyle="bold"  />
+        </TableRow>
+
+        <TableRow android:layout_weight="0.3">
+            <RadioGroup
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <RadioButton
+                android:id="@+id/man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="남성" />
+
+            <RadioButton
+                android:id="@+id/woman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="여성" />
+            </RadioGroup>
+        </TableRow>
+
+        <TableRow android:layout_weight="0.5">
+            <TextView
+                android:id="@+id/blank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" />
+        </TableRow>
+
+        <TableRow android:layout_weight="0.2">
+            <EditText
+            android:id="@+id/size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text=" 당신의 발 사이즈는?"
+            android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow android:layout_weight="0.2">
+            <EditText
+            android:id="@+id/getSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint=" 사이즈를 입력하시오"
+            android:inputType="numberDecimal" />
+        </TableRow>
+
+        <TableRow android:layout_weight="2">
+            <TextView
+                android:id="@+id/blank2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"/>
+        </TableRow>
+
+        <TableRow android:layout_weight="0.2">
+
+            <Button
+                android:id="@+id/nextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="250dp"
+                android:text="다음"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                tools:layout_editor_absoluteX="272dp"
+                tools:layout_editor_absoluteY="447dp"/>
+        </TableRow>
+
+    </TableLayout>
+
+</android.support.constraint.ConstraintLayout>
