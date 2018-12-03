@@ -2,6 +2,8 @@ package ehersenaw.com.github.shoose;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -22,6 +25,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import static com.nhn.android.naverlogin.ui.view.OAuthLoginButton.TAG;
@@ -57,7 +66,7 @@ public class SearchFragment extends Fragment {
         sortSpinner.setAdapter(sortAdapter);
 
         JSONParser jsonparser = new JSONParser();
-        ArrayList<Product> products = jsonparser.doJSONParse("[{'product_SN':1,'type':'sneakers','name':'나이키개간지신발1','price':13000,'brand':'nike'},{'product_SN':2,'type':'sneakers','name':'나이키개간지신발2','price':130000,'brand':'nike'}]");
+        ArrayList<Product> products = jsonparser.doJSONParse("[{'product_SN':1,'type':'sneakers','name':'나이키개간지신발1','price':13000,'brand':'nike','img_url':'https://www.kicksusa.com/media/wysiwyg/brands/nike/Running.jpg'},{'product_SN':2,'type':'sneakers','name':'나이키개간지신발2','price':130000,'brand':'nike','img_url':'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxO8ny4koS57SX5AMinZmheapT1ayn_OnO7JqYYSVcsTydqVrS'}]");
         LinearLayout containerLayout = new LinearLayout(this.getActivity());
         containerLayout.setOrientation(LinearLayout.VERTICAL);
         for(int i=0;i<products.size();i++){
@@ -81,6 +90,8 @@ public class SearchFragment extends Fragment {
         TextView price;
         TextView brand;
         TextView type;
+        ImageView product_img;
+        Bitmap bitmap;
 
         public CustomProductLayout(Context context, Product shoose) {
             super(context);
@@ -100,18 +111,50 @@ public class SearchFragment extends Fragment {
             LayoutInflater li = (LayoutInflater) getContext().getSystemService(infService);
             View v = li.inflate(R.layout.product_layout, this, false);
             addView(v);
+            final Product shooseProduct = shoose;
 
             product_SN = (TextView) findViewById(R.id.product_SN);
             name = (TextView) findViewById(R.id.name);
             price = (TextView) findViewById(R.id.price);
             brand = (TextView) findViewById(R.id.brand);
             type = (TextView) findViewById(R.id.type);
+            product_img = (ImageView) findViewById(R.id.product_img);
 
             product_SN.setText(Integer.toString(shoose.product_SN));
             name.setText(shoose.name);
             price.setText(Integer.toString(shoose.price));
             brand.setText(shoose.brand);
             type.setText(shoose.type);
+
+            Thread imgThread = new Thread(){
+                @Override
+                public void run() {
+                    try {
+                        URL url = new URL(shooseProduct.img_url);
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setDoInput(true);
+                        conn.connect();
+
+                        InputStream is =conn.getInputStream();
+                        bitmap = BitmapFactory.decodeStream(is);
+//                        BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
+//                        Bitmap bm = BitmapFactory.decodeStream(bis);
+//                        bis.close();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            imgThread.start();
+
+            try {
+                imgThread.join();
+                product_img.setImageBitmap(bitmap);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
 
         }
 
@@ -180,6 +223,7 @@ public class SearchFragment extends Fragment {
                 product.name = jobject.getString("name");
                 product.price = jobject.getInt("price");
                 product.brand = jobject.getString("brand");
+                product.img_url = jobject.getString("img_url");
 //                Log.d(TAG, "putProdcut1 : "+product.name);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -194,16 +238,18 @@ public class SearchFragment extends Fragment {
         String name = "bbb";
         int price = 0;
         String brand = "ccc";
+        String img_url = "https://stockx.imgix.net/Nike-Air-Max-1-97-Sean-Wotherspoon-NA-Product.jpg?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256";
 
         public Product() {
         }
 
-        public Product(int product_SN, String type, String name, int price, String brand) {
+        public Product(int product_SN, String type, String name, int price, String brand, String img_url) {
             this.product_SN = product_SN;
             this.type = type;
             this.name = name;
             this.price = price;
             this.brand = brand;
+            this.img_url = img_url;
         }
     }
 }
