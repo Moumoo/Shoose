@@ -20,14 +20,11 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                HomeFragment tabFragment1 = new HomeFragment();
+                SearchFragment tabFragment1 = new SearchFragment();
                 return tabFragment1;
             case 1:
-                SearchFragment tabFragment2 = new SearchFragment();
+                RecommendationFragment tabFragment2 = new RecommendationFragment();
                 return tabFragment2;
-            case 2:
-                RecommendationFragment tabFragment3 = new RecommendationFragment();
-                return tabFragment3;
             default:
                 return null;
         }

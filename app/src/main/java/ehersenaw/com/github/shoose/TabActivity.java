@@ -61,7 +61,6 @@ public class TabActivity extends AppCompatActivity {
 
         //Initializing the TabLayout;
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("home"));
         tabLayout.addTab(tabLayout.newTab().setText("검색"));
         tabLayout.addTab(tabLayout.newTab().setText("추천"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
