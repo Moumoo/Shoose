@@ -319,11 +319,11 @@ public class SearchFragment extends Fragment {
             type = (TextView) findViewById(R.id.type);
             product_img = (ImageView) findViewById(R.id.product_img);
 
-            product_SN.setText(Integer.toString(shoose.product_SN));
-            name.setText(shoose.name);
-            price.setText(Integer.toString(shoose.price));
-            brand.setText(shoose.brand);
-            type.setText(shoose.type);
+            product_SN.setText("품번 : "+Integer.toString(shoose.product_SN));
+            name.setText("품명 : "+shoose.name);
+            price.setText("가격 : "+Integer.toString(shoose.price));
+            brand.setText("상표 : "+shoose.brand);
+            type.setText("분류 : "+shoose.type);
 
             Thread imgThread = new Thread(){
                 @Override
