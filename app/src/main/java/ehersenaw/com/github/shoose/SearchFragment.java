@@ -5,9 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,12 +25,14 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,7 +48,7 @@ public class SearchFragment extends Fragment {
     String selected_brand = "전체";
     String selected_sort = "인기순";
     JSONParser jsonparser = new JSONParser();
-    ArrayList<Product> originProducts = jsonparser.doJSONParse("[{'product_SN':1,'type':'부츠','name':'나이키개간지신발1','price':13000,'brand':'나이키','img_url':'https://www.kicksusa.com/media/wysiwyg/brands/nike/Running.jpg','point':'3.0'},{'product_SN':2,'type':'런닝/피트니스화','name':'나이키개간지신발2','price':130000,'brand':'나이키','img_url':'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxO8ny4koS57SX5AMinZmheapT1ayn_OnO7JqYYSVcsTydqVrS','point':'4.0'}]");
+    ArrayList<Product> originProducts = jsonparser.doJSONParse("[{'product_SN':1,'type':'부츠','name':'나이키개간지신발1','price':13000,'brand':'나이키','img_url':'https://www.kicksusa.com/media/wysiwyg/brands/nike/Running.jpg','point':'3.0','shop_url':'https://m.sports.naver.com/kbaseball/news/read.nhn?oid=081&aid=0002961772'},{'product_SN':2,'type':'런닝/피트니스화','name':'나이키개간지신발2','price':130000,'brand':'나이키','img_url':'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxO8ny4koS57SX5AMinZmheapT1ayn_OnO7JqYYSVcsTydqVrS','point':'4.0','shop_url':'https://m.sports.naver.com/kbaseball/news/read.nhn?oid=081&aid=0002961772'}]");
     ArrayList<Product> products = originProducts;
 
 
@@ -305,12 +310,35 @@ public class SearchFragment extends Fragment {
             super(context, attrs, defStyleAttr);
         }
 
-        private void initView(Product shoose){
+//        @Override
+//        public void bringToFront() {
+//            super.bringToFront();
+//        }
+//
+
+        private void initView(final Product shoose){
             String infService = Context.LAYOUT_INFLATER_SERVICE;
             LayoutInflater li = (LayoutInflater) getContext().getSystemService(infService);
             View v = li.inflate(R.layout.product_layout, this, false);
             addView(v);
             final Product shooseProduct = shoose;
+
+            //layout click
+            v.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+//                    Toast t = Toast.makeText(getActivity(), shoose.name, Toast.LENGTH_SHORT);
+//                    t.show();
+                    FragmentManager fm = getFragmentManager();
+                    ProductDetailDialogFragment productDetailDialogFragment = new ProductDetailDialogFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("shoose",shoose);
+//                    bundle.putSerializable("shoose",shoose);
+                    productDetailDialogFragment.setArguments(bundle);
+                    productDetailDialogFragment.show(fm,shoose.name);
+                }
+            });
 
             product_SN = (TextView) findViewById(R.id.product_SN);
             name = (TextView) findViewById(R.id.name);
@@ -321,9 +349,9 @@ public class SearchFragment extends Fragment {
 
             product_SN.setText("품번 : "+Integer.toString(shoose.product_SN));
             name.setText("품명 : "+shoose.name);
-            price.setText("가격 : "+Integer.toString(shoose.price));
+            price.setText("가격 : "+Integer.toString(shoose.price)+" 원");
             brand.setText("상표 : "+shoose.brand);
-            type.setText("분류 : "+shoose.type);
+            type.setText("분류 : "+shoose.type+"/5.0");
 
             Thread imgThread = new Thread(){
                 @Override
@@ -350,6 +378,8 @@ public class SearchFragment extends Fragment {
             }catch (InterruptedException e){
                 e.printStackTrace();
             }
+
+
         }
     }
 
@@ -383,6 +413,7 @@ public class SearchFragment extends Fragment {
                 product.brand = jobject.getString("brand");
                 product.img_url = jobject.getString("img_url");
                 product.point = jobject.getDouble("point");
+                product.shop_url = jobject.getString("shop_url");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -390,7 +421,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    public class Product {
+    public class Product implements Parcelable{
         int product_SN = 0;
         String type = "aaa";
         String name = "bbb";
@@ -398,11 +429,12 @@ public class SearchFragment extends Fragment {
         String brand = "ccc";
         String img_url = "https://stockx.imgix.net/Nike-Air-Max-1-97-Sean-Wotherspoon-NA-Product.jpg?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256";
         double point;
+        String shop_url = "http://m.coupang.com/vm/products/17090984?vendorItemId=3111328892";
 
         public Product() {
         }
 
-        public Product(int product_SN, String type, String name, int price, String brand, String img_url,double point) {
+        public Product(int product_SN, String type, String name, int price, String brand, String img_url,double point, String shop_url) {
             this.product_SN = product_SN;
             this.type = type;
             this.name = name;
@@ -410,6 +442,47 @@ public class SearchFragment extends Fragment {
             this.brand = brand;
             this.img_url = img_url;
             this.point = point;
+            this.shop_url = shop_url;
+        }
+
+        protected Product(Parcel in) {
+            product_SN = in.readInt();
+            type = in.readString();
+            name = in.readString();
+            price = in.readInt();
+            brand = in.readString();
+            img_url = in.readString();
+            point = in.readDouble();
+            shop_url = in.readString();
+        }
+
+        public final Creator<Product> CREATOR = new Creator<Product>() {
+            @Override
+            public Product createFromParcel(Parcel in) {
+                return new Product(in);
+            }
+
+            @Override
+            public Product[] newArray(int size) {
+                return new Product[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(product_SN);
+            dest.writeString(type);
+            dest.writeString(name);
+            dest.writeInt(price);
+            dest.writeString(brand);
+            dest.writeString(img_url);
+            dest.writeDouble(point);
+            dest.writeString(shop_url);
         }
     }
 }

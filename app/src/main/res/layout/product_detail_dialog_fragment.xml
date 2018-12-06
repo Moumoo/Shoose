@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:minWidth="300dp"
+    android:minHeight="400dp">
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/product_detail_img"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/goToBuy"
+        android:layout_gravity="center_horizontal|bottom"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="사러가기"
+        android:background="#E64C53"
+        android:textColor="#fff"
+        android:layout_width="100dp"
+        android:layout_height="38dp" />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="13dp"
+        android:id="@+id/detailName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginLeft="13dp"
+        android:id="@+id/detailBrand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginLeft="13dp"
+        android:id="@+id/detailPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginLeft="13dp"
+        android:id="@+id/detailType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginLeft="13dp"
+        android:id="@+id/detailProduct_SN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginLeft="13dp"
+        android:id="@+id/detailPoint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/dialogClose"
+        android:layout_gravity="center_horizontal|bottom"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="닫기"
+        android:layout_width="100dp"
+        android:layout_height="50dp" />
+</LinearLayout>
