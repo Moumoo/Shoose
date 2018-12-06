@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_title">
+
+        <SwitchPreference
+            android:key="message"
+            android:title="message notification"/>
+
+        <PreferenceScreen
+            android:key="keyword_screen"
+            android:title="keyword notification"
+            android:summary="Don't use">
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="keyword"
+                android:summary="NYANG"
+                android:title="keyword notification"/>
+
+            <ListPreference
+                android:entries="@array/array_my_profile"
+                android:entryValues="@array/array_my_profile"
+                android:key="keyword_sound_list"
+                android:summary="KakaoTalk"
+                android:title="Notification tone for keyword"
+                android:dependency="keyword"/>
+
+        </PreferenceScreen>
+
+        <SwitchPreference
+            android:key="sound"
+            android:title="SOUUUUND"/>
+
+        <ListPreference
+            android:entries="@array/array_my_profile"
+            android:entryValues="@array/array_my_profile"
+            android:key="sound_list"
+            android:summary="KaTalk"
+            android:title="BEEEEEP"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
