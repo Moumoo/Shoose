@@ -25,6 +25,9 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 RecommendationFragment tabFragment2 = new RecommendationFragment();
                 return tabFragment2;
+            case 2:
+                TournamentFragment tabFragment3 = new TournamentFragment();
+                return tabFragment3;
             default:
                 return null;
         }

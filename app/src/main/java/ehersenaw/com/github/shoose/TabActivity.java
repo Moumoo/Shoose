@@ -64,6 +64,7 @@ public class TabActivity extends AppCompatActivity {
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("검색"));
         tabLayout.addTab(tabLayout.newTab().setText("추천"));
+        tabLayout.addTab(tabLayout.newTab().setText("토너먼트"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //Initializing ViewPager(탭 관련 코드)

@@ -334,7 +334,6 @@ public class SearchFragment extends Fragment {
                     ProductDetailDialogFragment productDetailDialogFragment = new ProductDetailDialogFragment();
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("shoose",shoose);
-//                    bundle.putSerializable("shoose",shoose);
                     productDetailDialogFragment.setArguments(bundle);
                     productDetailDialogFragment.show(fm,shoose.name);
                 }
