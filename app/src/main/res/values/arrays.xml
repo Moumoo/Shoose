@@ -19,6 +19,7 @@
         <item>런닝/피트니스화</item>
         <item>농구화</item>
         <item>기타</item>
+        <item>샌들/플리플랍/슬리퍼</item>
     </string-array>
 
     <string-array name="brand">
@@ -39,6 +40,18 @@
         <item>높은 가격순</item>
         <item>평가순</item>
 
+    </string-array>
+
+    <string-array name="time">
+        <item>전체</item>
+        <item>여름</item>
+        <item>겨울</item>
+    </string-array>
+
+    <string-array name="occasion">
+        <item>전체</item>
+        <item>포멀</item>
+        <item>캐주얼</item>
     </string-array>
 
     <string-array name="array_my_profile">
