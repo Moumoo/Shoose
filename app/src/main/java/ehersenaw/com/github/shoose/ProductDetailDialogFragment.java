@@ -45,7 +45,7 @@ public class ProductDetailDialogFragment extends DialogFragment{
 
         Bundle bundle = getArguments();
         if(bundle != null){
-            final SearchFragment.Product shoose = (SearchFragment.Product) bundle.getParcelable("shoose");
+            final Product shoose = (Product) bundle.getParcelable("shoose");
             detailProduct_SN.setText("품번 : "+Integer.toString(shoose.product_SN));
             detailName.setText("품명 : "+shoose.name);
             detailPrice.setText("가격 : "+Integer.toString(shoose.price));
