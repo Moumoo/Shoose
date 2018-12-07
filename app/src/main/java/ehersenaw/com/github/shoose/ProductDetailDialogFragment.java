@@ -95,6 +95,7 @@ public class ProductDetailDialogFragment extends DialogFragment{
 //"https://stockx.imgix.net/Nike-Air-Max-1-97-Sean-Wotherspoon-NA-Product.jpg?fit=fill&bg=FFFFFF&w=300&h=214&auto=format,compress&trim=color&q=90&dpr=2&updated_at=1538080256"
             @Override
             public void onClick(View v) {
+
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(shopUrl));
                 startActivity(browserIntent);
             }
