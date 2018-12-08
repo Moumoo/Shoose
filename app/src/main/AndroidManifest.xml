@@ -30,7 +30,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <!-- android:label="@string/app_name" -->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.DEFAULT" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -47,7 +47,7 @@
             android:name=".SurveyActivity">
             <!--   android:label="@string/app_name"> -->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.DEFAULT" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -57,7 +57,7 @@
             android:name=".SurveyActivity2">
             <!--   android:label="@string/app_name"> -->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.DEFAULT" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -67,7 +67,7 @@
             android:name=".SurveyActivity2_1">
             <!--   android:label="@string/app_name"> -->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.DEFAULT" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -77,7 +77,7 @@
             android:name=".SurveyActivity3">
             <!--   android:label="@string/app_name"> -->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.DEFAULT" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
