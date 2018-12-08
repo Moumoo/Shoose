@@ -5,6 +5,6 @@
     <header
         android:fragment="ehersenaw.com.github.shoose.SettingPreferenceFragment"
         android:title="My profile customization"
-        android:summary="An example of some preferences." />
+        android:summary="User customization" />
 
 </preference-headers>

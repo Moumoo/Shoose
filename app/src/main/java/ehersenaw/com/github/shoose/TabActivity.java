@@ -35,7 +35,10 @@ public class TabActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
 //    private ViewPager mViewPager;
-
+    // User Info, from LoginActivity.
+    private String mID;
+    private String mPassword;
+    private int SN;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,9 @@ public class TabActivity extends AppCompatActivity {
             long expiresAt = intent.getExtras().getLong("expiresAt");
             String tokenType = intent.getExtras().getString("tokenType");
         }
+        mID = intent.getExtras().getString("ID");
+        mPassword = intent.getExtras().getString("password");
+        SN = intent.getExtras().getInt("SN");
 
         LA.finish();
 
@@ -114,6 +120,7 @@ public class TabActivity extends AppCompatActivity {
             {
                 Intent intent = new Intent();
                 intent.setClassName(this, "ehersenaw.com.github.shoose.SettingPreferenceActivity");
+                intent.putExtra("SN",SN);
                 startActivity(intent);
                 return true;
             }
