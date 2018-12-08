@@ -380,18 +380,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, String> {
 
         private final String mID;
         private final String mPassword;
-
+        private ContentValues values;
         UserLoginTask(String ID, String password) {
             mID = ID;
             mPassword = password;
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
             /**
              * For testing server connection.
@@ -401,30 +401,36 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String url = "http://13.125.41.85:3000/api/usr/signup";
 
             // Do HttpURLConnection with AsyncTask.
-            ContentValues values = new ContentValues();
+            values = new ContentValues();
             values.clear();
             values.put("password",mPassword);
             values.put("ID", mID);
 
-            NetworkTask networkTask = new NetworkTask(url, values);
-            networkTask.onPostExecute();
+            String message;
+            JSONObject result_json_obj;
+            RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
 
+            result_json_obj = requestHTTPURLConnection.request(url, values); // Get result message from corresponding URL
+            try {
+                message = (String) result_json_obj.get("message");
+                return message;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
 
             /**
              * continue from below /* part.
              */
 
-
-            Log.i("userLoginTask","userLoginTask "+signUpResult);
-            return (signUpResult.equals("success"));
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final String message) {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            if (message.equals("success")) {
                 /* Switch to TabActivity */
                 // Set Intent
                 Intent intent = new Intent(getApplicationContext(), TabActivity.class);
@@ -459,6 +465,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 long expiresAt = mOAuthLoginInstance.getExpiresAt(mContext);
                 String tokenType = mOAuthLoginInstance.getTokenType(mContext);
                 /* */
+                // Show a progress spinner, and kick off a background task to
+                // perform the user login attempt.
+                Log.i("accessToken", accessToken);
+                showProgress(true);
+                mAuthTask = new UserLoginTask(accessToken, "temp_password");
+                try {
+                    mAuthTask.execute((Void) null).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 /* Switch to TabActivity */
                 // Set Intent
@@ -528,7 +546,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Server connection (HTTP) checking code ...
      */
-
+    /*
     public class NetworkTask {
         private String url;
         private ContentValues values;
@@ -563,5 +581,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Log.i("validation result", "validation result "+signUpResult);
         }
     }
+    */
 }
 
