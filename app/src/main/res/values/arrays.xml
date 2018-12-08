@@ -54,11 +54,14 @@
         <item>캐주얼</item>
     </string-array>
 
-    <string-array name="array_my_profile">
-        <item>item_1</item>
-        <item>item_2</item>
-        <item>item_3</item>
-        <item>item_4</item>
+    <string-array name="my_profile_gender">
+        <item>남성</item>
+        <item>여성</item>
+    </string-array>
+
+    <string-array name="my_profile_gender_values">
+        <item>Male</item>
+        <item>Female</item>
     </string-array>
 
 </resources>

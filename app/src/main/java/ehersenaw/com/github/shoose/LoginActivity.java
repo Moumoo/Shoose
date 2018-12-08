@@ -395,7 +395,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private ContentValues values;
         private int mode;
         private int SN;
-
+        private String Token;
         UserLoginTask(String ID, String password, int flag) {
             mID = ID;
             mPassword = password;
@@ -431,7 +431,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 } else {// Log in
                     try {
                         SN = (int)jsonObj_response.get("SN");
-                        return jsonObj_response.get("token").toString();
+                        Token = jsonObj_response.get("token").toString();
+                        return Token;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -512,6 +513,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     // Set Intent
                     Intent intent = new Intent(getApplicationContext(), TabActivity.class);
                     intent.putExtra("hasNAVEROAuth", false);
+                    intent.putExtra("ID", mID);
+                    intent.putExtra("password", mPassword);
+                    intent.putExtra("SN", SN);
+                    intent.putExtra("Token",Token);
                     startActivity(intent);
                     //finish();
                     /* */
