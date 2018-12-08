@@ -407,9 +407,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             values.put("ID", mID);
 
             NetworkTask networkTask = new NetworkTask(url, values);
-            networkTask.execute();
+            networkTask.onPostExecute();
 
-            while()
 
             /**
              * continue from below /* part.
@@ -530,7 +529,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Server connection (HTTP) checking code ...
      */
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
+    public class NetworkTask {
         private String url;
         private ContentValues values;
 
@@ -539,35 +538,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             this.values = values;
         }
 
-        @Override
-        protected String doInBackground(Void... params) {
+        String doInBackground(Void... params) {
             String message;
             String result; // Variable to save requested result.
             JSONObject result_json_obj;
             RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
             //Log.i("R_HTTP_URL_CONN", requestHTTPURLConnection.toString());
             //Log.i("url", url);
-            Log.i("test 1", "testing_1");
             result_json_obj = requestHTTPURLConnection.request(url, values); // Get result message from corresponding URL
-            Log.i("test 2", "testing_2");
             try {
                 message = (String) result_json_obj.get("message");
                 result = (String) result_json_obj.get("result");
-                Log.i("test 3", "testing_3");
                 return message;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.i("test 4", "testing_4");
             return null;
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        void onPostExecute(Void... params) {
             // doInBackground()'s return value would delivered by meta-variable of onPostExecute, print s
             //Log.i("validation result_init", "validation result_init"+signUpResult);
-            signUpResult = s;
+            signUpResult = doInBackground();
             Log.i("validation result", "validation result "+signUpResult);
         }
     }
