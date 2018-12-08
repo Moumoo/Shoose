@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -141,7 +142,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    attemptLogin(1);
                     return true;
                 }
                 return false;
@@ -150,11 +151,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         // mEmailSignInButton.setOnClickListener(new OnClickListener() {
-        Button mIDSignInButton = (Button) findViewById(R.id.id_sign_in_button);
-        mIDSignInButton.setOnClickListener(new OnClickListener() {
+        Button mIDSignUpButton = (Button) findViewById(R.id.id_sign_up_button);
+        mIDSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptLogin(0);
+            }
+        });
+
+        Button mIDLogInButton = (Button) findViewById(R.id.id_log_in_button);
+        mIDLogInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptLogin(1);
             }
         });
         
@@ -230,7 +239,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptLogin(int flag) {
         if (mAuthTask != null) {
             return;
         }
@@ -272,7 +281,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(ID, password);
+            mAuthTask = new UserLoginTask(ID, password, flag);
             mAuthTask.execute((Void) null);
         }
     }
@@ -384,17 +393,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private final String mID;
         private final String mPassword;
         private ContentValues values;
+        private int mode;
+        private int SN;
 
-        UserLoginTask(String ID, String password) {
+        UserLoginTask(String ID, String password, int flag) {
             mID = ID;
             mPassword = password;
+            mode = flag;
         }
 
         @Override
         protected String doInBackground(Void... params) {
             // Set URL
-            String url = "http://13.125.41.85:3000/api/usr/signup";
-
+            String url;
+            if (mode == 0) {
+                url = "http://13.125.41.85:3000/api/usr/signup";
+            } else {
+                url = "http://13.125.41.85:3000/api/usr/login";
+            }
+            Log.i("current URL", url);
             // Do HttpURLConnection with AsyncTask.
             values = new ContentValues();
             values.clear();
@@ -402,37 +419,103 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             values.put("ID", mID);
 
             String message;
-            JSONObject result_json_obj;
             RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
-
             try {
-                return requestHTTPURLConnection.request(url, values).get("message").toString(); // Get result message from corresponding URL
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
+                JSONObject jsonObj_response = requestHTTPURLConnection.request(url, values);
+                if (mode == 0) {// Sign up
+                    try {
+                        return jsonObj_response.get("message").toString();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {// Log in
+                    try {
+                        SN = (int)jsonObj_response.get("SN");
+                        return jsonObj_response.get("token").toString();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                /**
+                 * continue from below /* part.
+                 */
+
+            } catch (CustomizedException e) {
+                // TODO: Control Intended Exceptions Here
+                if (e.msg.equals("CONFLICT")) {
+                    // During Sign up
+                    return e.msg;
+                } else if (e.msg.equals("NOT_FOUND")) {
+                    // During Log in
+                    return e.msg;
+                } else if (e.msg.equals("INTERNAL_ERROR")) {
+                    // Server Error
+                    return e.msg;
+                }
             }
 
-            /**
-             * continue from below /* part.
-             */
+            // Unreachable with normal situation.
+            return null;
         }
 
         @Override
         protected void onPostExecute(final String message) {
             mAuthTask = null;
             showProgress(false);
+            if (mode == 0) {
+                // Sign up
+                if (message.equals("success")) {
+                    // TODO: Notify "Sign up success"
+                    Log.i("success_sign_up", "success");
 
-            if (message.equals("success")) {
-                /* Switch to TabActivity */
-                // Set Intent
-                Intent intent = new Intent(getApplicationContext(), TabActivity.class);
-                intent.putExtra("hasNAVEROAuth", false);
-                startActivity(intent);
-                //finish();
-                /* */
+                } else if (message.equals("CONFLICT")) {
+                    // ID already exists.
+                    mIDView.setError("This ID is already on-use");
+                    mIDView.requestFocus();
+                } else if (message.equals("INTERNAL_ERROR")) {
+                    // Sign-up failed due to unknown reason.
+                    mIDView.setError("Sign up failed(UNKNOWN ERROR)");
+                    mIDView.requestFocus();
+                } else {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                // Log in
+                Log.i("log_in_final", message);
+                // ID Doesn't exists.
+                // TODO: Sign up and retry log-in.
+                if (message.equals("NOT_FOUND")) {
+                    // Sign up
+                    UserLoginTask mAuthTask2 = new UserLoginTask(mID, mPassword, 0);
+                    try {
+                        mAuthTask2.execute((Void)null).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Try log in again
+                    mAuthTask2 = null;
+                    mAuthTask2 = new UserLoginTask(mID, mPassword, 1);
+                    try {
+                        mAuthTask2.execute((Void)null).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    /* Switch to TabActivity */
+                    // Set Intent
+                    Intent intent = new Intent(getApplicationContext(), TabActivity.class);
+                    intent.putExtra("hasNAVEROAuth", false);
+                    startActivity(intent);
+                    //finish();
+                    /* */
+                }
             }
         }
 
@@ -461,7 +544,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // perform the user login attempt.
                 Log.i("accessToken", accessToken);
                 showProgress(true);
-                mAuthTask = new UserLoginTask(accessToken.substring(0,7), "temp_password");
+
+                mAuthTask = new UserLoginTask(accessToken.substring(0, 7), "temp_password", 1);
                 mAuthTask.execute((Void) null);
 
                 /* Switch to TabActivity */

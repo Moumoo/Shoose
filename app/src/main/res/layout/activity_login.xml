@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
                     android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeActionLabel="@string/action_sign_up_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
@@ -66,24 +66,21 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/id_sign_in_button"
+                android:id="@+id/id_sign_up_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
+                android:text="@string/action_sign_up"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_outPut"
+            <Button
+                android:id="@+id/id_log_in_button"
+                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="nyang"
-                android:textColor="@color/colorAccent"
-                android:textSize="18sp"
-                android:typeface="normal"
-                android:visibility="visible"
-                app:fontFamily="monospace" />
+                android:layout_marginTop="16dp"
+                android:text="@string/action_log_in"
+                android:textStyle="bold" />
 
             <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
                 android:id="@+id/buttonOAuthLoginImg"
