@@ -461,17 +461,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // perform the user login attempt.
                 Log.i("accessToken", accessToken);
                 showProgress(true);
-                mAuthTask = new UserLoginTask(accessToken, "temp_password");
-                try {
-                    mAuthTask.execute((Void) null).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                mAuthTask = new UserLoginTask(accessToken.substring(0,7), "temp_password");
+                mAuthTask.execute((Void) null);
 
                 /* Switch to TabActivity */
                 // Set Intent
+                /*
                 Intent intent = new Intent(getApplicationContext(), TabActivity.class);
                 // Set informations to send to TabActivity
                 intent.putExtra("hasNAVEROAuth", true);
@@ -481,6 +476,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 intent.putExtra("tokenType", tokenType);
 
                 startActivity(intent);
+                */
                 /* */
             } else {
                 /* 로그인 실패 */
