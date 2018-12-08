@@ -20,7 +20,7 @@ import java.util.Map;
 public class RequestHTTPURLConnection {
     private static final String TAG = "R_HTTP_URL_CONN";
 
-    public JSONObject request(String _url, ContentValues _params) {
+    public JSONObject request(String _url, ContentValues _params) throws CustomizedException{
         // HttpURLConnection 참조 변수
         HttpURLConnection urlConn = null;
         // URL 뒤에 붙여서 보낼 패러미터
@@ -97,8 +97,19 @@ public class RequestHTTPURLConnection {
 
             // [2-3]. Server connect request check.
             // If failed, return null and quit method.
-            if (responseCode != HttpURLConnection.HTTP_OK)
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                if (responseCode == HttpURLConnection.HTTP_CONFLICT) {
+                    // During Sign up
+                    throw new CustomizedException("CONFLICT");
+                } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                    // During Log in
+                    throw new CustomizedException("NOT_FOUND");
+                } else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
+                    // Server error
+                    throw new CustomizedException("INTERNAL_ERROR");
+                }
                 return null;
+            }
 
             // [2-4]. Return read result
             // Get result of requested URL to BufferedReader
@@ -135,5 +146,13 @@ public class RequestHTTPURLConnection {
         }
 
         return null;
+    }
+}
+
+class CustomizedException extends RuntimeException {
+    String msg;
+    public CustomizedException(String msg) {
+        super(msg);
+        this.msg = msg;
     }
 }
