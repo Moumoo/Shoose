@@ -30,7 +30,7 @@ public class SurveyActivity2 extends AppCompatActivity {
         nextbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(SurveyActivity2.this, SurveyActivity3.class);
+                Intent intent = new Intent(SurveyActivity2.this, SurveyActivity2_1.class);
                 startActivity(intent);
             }
         });
@@ -159,57 +159,6 @@ public class SurveyActivity2 extends AppCompatActivity {
                 }
                 break;
             case R.id.goche:
-                if (on) {
-
-                }
-                break;
-            //스타일
-            case R.id.slipper:
-                if (on) {
-
-                }
-                break;
-            case R.id.sandle:
-                if (on) {
-
-                }
-                break;
-            case R.id.sneakers:
-                if (on) {
-
-                }
-                break;
-            case R.id.slipon:
-                if (on) {
-
-                }
-                break;
-            case R.id.gym:
-                if (on) {
-
-                }
-                break;
-            case R.id.loafer:
-                if (on) {
-
-                }
-                break;
-            case R.id.hill:
-                if (on) {
-
-                }
-                break;
-            case R.id.boat:
-                if (on) {
-
-                }
-                break;
-            case R.id.walker:
-                if (on) {
-
-                }
-                break;
-            case R.id.boots:
                 if (on) {
 
                 }
