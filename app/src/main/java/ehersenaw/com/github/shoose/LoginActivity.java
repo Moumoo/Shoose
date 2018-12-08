@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -38,6 +39,16 @@ import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +61,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    private static final String TAG = "network_post check";
     public static Activity _Login_Activity; /*To terminate this activity after moves to other activity*/
     public static final int tab_sig = 1001; /*Signal code for launching "TabActivity"*/
     /**
@@ -78,6 +90,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // Customized UI.
     private AutoCompleteTextView mIDView;
 
+    // For testing server connection.
+    private TextView tv_outPut;
+
     // Naver OAuth
     private static OAuthLogin mOAuthLoginInstance;
     private OAuthLoginButton mOAuthLoginButton;
@@ -95,6 +110,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
         setContentView(R.layout.activity_login);
+
+        /**
+         * For testing server connection.
+         */
+
+        // Reference of widget
+        tv_outPut = (TextView) findViewById(R.id.tv_outPut);
+        // Set URL
+        String url = "http://13.125.41.85:3000/";
+
+        // Do HttpURLConnection with AsyncTask.
+        NetworkTask networkTask = new NetworkTask(url, null);
+        networkTask.execute();
+
+        /**
+         * continue from below /* part.
+         */
+
         // mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mIDView = (AutoCompleteTextView) findViewById(R.id.ID);
         // populateAutoComplete();
@@ -478,6 +511,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             return null;
+        }
+    }
+
+
+    /**
+     * Server connection (HTTP) checking code ...
+     */
+
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+        private String url;
+        private ContentValues values;
+
+        public NetworkTask(String url, ContentValues values) {
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result; // Variable to save requested result.
+            RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
+            result = requestHTTPURLConnection.request(url, values); // Get result from corresponding URL
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            // doInBackground()'s return value would delivered by meta-variable of onPostExecute, print s
+            tv_outPut.setText(s);
         }
     }
 }

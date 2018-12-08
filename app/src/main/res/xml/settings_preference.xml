@@ -4,12 +4,12 @@
     <PreferenceCategory android:title="@string/settings_title">
 
         <SwitchPreference
-            android:key="message"
-            android:title="message notification"/>
+            android:key="NYANG?"
+            android:title="NYANG!"/>
 
         <PreferenceScreen
             android:key="keyword_screen"
-            android:title="keyword notification"
+            android:title="User Preferences"
             android:summary="Don't use">
 
             <SwitchPreference
@@ -21,9 +21,9 @@
             <ListPreference
                 android:entries="@array/array_my_profile"
                 android:entryValues="@array/array_my_profile"
-                android:key="keyword_sound_list"
-                android:summary="KakaoTalk"
-                android:title="Notification tone for keyword"
+                android:key="first_array"
+                android:summary="My profile: First array of user preferences"
+                android:title="First array of user preferences"
                 android:dependency="keyword"/>
 
         </PreferenceScreen>
@@ -35,9 +35,9 @@
         <ListPreference
             android:entries="@array/array_my_profile"
             android:entryValues="@array/array_my_profile"
-            android:key="sound_list"
-            android:summary="KaTalk"
-            android:title="BEEEEEP"/>
+            android:key="second_array"
+            android:summary="My profile: Second array of user preferences"
+            android:title="Second array of user preferences"/>
 
     </PreferenceCategory>
 
