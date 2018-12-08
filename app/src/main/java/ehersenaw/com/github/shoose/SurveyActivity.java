@@ -1,25 +1,23 @@
 package ehersenaw.com.github.shoose;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class SurveyActivity extends AppCompatActivity {
-    private EditText text;
-    Button btn;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey);
-        text=(EditText)findViewById(R.id.getSize);
 
-        btn=(Button)findViewById(R.id.nextButton);
+        Button btn=(Button)findViewById(R.id.nextButton);
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -30,31 +28,75 @@ public class SurveyActivity extends AppCompatActivity {
 
     }
 
-    public void onRadioButtonClicked(View view){
-        boolean checked=((RadioButton) view).isChecked();
-        int getSex=0;
+    public void onToggleClicked(View view) {
+        boolean on = ((ToggleButton) view).isChecked();
 
-        switch (view.getId()){
+        switch (view.getId()) {
+            //성별
             case R.id.man:
-                if(checked) {
-                    Toast.makeText(getApplicationContext(), ((RadioButton) view).getText(), Toast.LENGTH_SHORT).show();
-                    getSex = 1;
+                if (on) {
+
                 }
                 break;
             case R.id.woman:
-                if(checked) {
-                    Toast.makeText(getApplicationContext(), ((RadioButton) view).getText(), Toast.LENGTH_SHORT).show();
-                    getSex = 2;
+                if (on) {
+
+                }
+                break;
+            //나이
+            case R.id.one:
+                if (on) {
+
+                }
+                break;
+            case R.id.ten:
+                if (on) {
+
+                }
+                break;
+            case R.id.twenty:
+                if (on) {
+
+                }
+                break;
+            case R.id.thirty:
+                if (on) {
+
+                }
+                break;
+            case R.id.forty:
+                if (on) {
+
+                }
+                break;
+            case R.id.fifty:
+                if (on) {
+
+                }
+                break;
+            //사이즈
+            case R.id.feet:
+                if (on) {
+
                 }
                 break;
         }
+    }
 
-        if(text.getText().length()==0){
-            Toast.makeText(this, "정확한 값을 입력하시오.", Toast.LENGTH_LONG).show();
-            return;
-        }
+    public void open(View view){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("발 사이즈를 선택하세요");
 
-        int getFeetsize= Integer.parseInt(text.getText().toString());
+        final CharSequence[] sizes = {"200이하","200", "205","210", "215","220", "225","230","235","240","245",
+                "250","260","265","270","275","280","285","290","295","300이상"};
 
+        alertDialogBuilder.setItems(sizes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int size) {
+                Toast.makeText(getApplicationContext(),"발사이즈 : "+ sizes[size],Toast.LENGTH_SHORT).show();
+            }
+        });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 }
