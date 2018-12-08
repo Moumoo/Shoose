@@ -74,14 +74,9 @@
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
-            <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
-                android:id="@+id/buttonOAuthLoginImg"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp" />
-
             <TextView
                 android:id="@+id/tv_outPut"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="nyang"
                 android:textColor="@color/colorAccent"
@@ -89,6 +84,12 @@
                 android:typeface="normal"
                 android:visibility="visible"
                 app:fontFamily="monospace" />
+
+            <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+                android:id="@+id/buttonOAuthLoginImg"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp" />
+
         </LinearLayout>
     </ScrollView>
 

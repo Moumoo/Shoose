@@ -51,6 +51,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -62,6 +65,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     private static final String TAG = "network_post check";
+    private static String signUpResult = "";
     public static Activity _Login_Activity; /*To terminate this activity after moves to other activity*/
     public static final int tab_sig = 1001; /*Signal code for launching "TabActivity"*/
     /**
@@ -114,16 +118,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         /**
          * For testing server connection.
          */
-
+        /*
         // Reference of widget
         tv_outPut = (TextView) findViewById(R.id.tv_outPut);
         // Set URL
-        String url = "http://13.125.41.85:3000/";
+        String url = "http://13.125.41.85:3000/api/usr/signup";
 
         // Do HttpURLConnection with AsyncTask.
         NetworkTask networkTask = new NetworkTask(url, null);
         networkTask.execute();
-
+        */
         /**
          * continue from below /* part.
          */
@@ -389,25 +393,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            /**
+             * For testing server connection.
+             */
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            // Set URL
+            String url = "http://13.125.41.85:3000/api/usr/signup";
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mID)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+            // Do HttpURLConnection with AsyncTask.
+            ContentValues values = new ContentValues();
+            values.clear();
+            values.put("password",mPassword);
+            values.put("ID", mID);
 
-            // TODO: register the new account here.
-            // TODO: Needs support of DB.
-            return true;
+            NetworkTask networkTask = new NetworkTask(url, values);
+            networkTask.execute();
+
+            while()
+
+            /**
+             * continue from below /* part.
+             */
+
+
+            Log.i("userLoginTask","userLoginTask "+signUpResult);
+            return (signUpResult.equals("success"));
         }
 
         @Override
@@ -450,6 +460,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 long expiresAt = mOAuthLoginInstance.getExpiresAt(mContext);
                 String tokenType = mOAuthLoginInstance.getTokenType(mContext);
                 /* */
+
                 /* Switch to TabActivity */
                 // Set Intent
                 Intent intent = new Intent(getApplicationContext(), TabActivity.class);
@@ -530,19 +541,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected String doInBackground(Void... params) {
+            String message;
             String result; // Variable to save requested result.
+            JSONObject result_json_obj;
             RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
-            result = requestHTTPURLConnection.request(url, values); // Get result from corresponding URL
-
-            return result;
+            //Log.i("R_HTTP_URL_CONN", requestHTTPURLConnection.toString());
+            //Log.i("url", url);
+            Log.i("test 1", "testing_1");
+            result_json_obj = requestHTTPURLConnection.request(url, values); // Get result message from corresponding URL
+            Log.i("test 2", "testing_2");
+            try {
+                message = (String) result_json_obj.get("message");
+                result = (String) result_json_obj.get("result");
+                Log.i("test 3", "testing_3");
+                return message;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.i("test 4", "testing_4");
+            return null;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
             // doInBackground()'s return value would delivered by meta-variable of onPostExecute, print s
-            tv_outPut.setText(s);
+            //Log.i("validation result_init", "validation result_init"+signUpResult);
+            signUpResult = s;
+            Log.i("validation result", "validation result "+signUpResult);
         }
     }
 }
