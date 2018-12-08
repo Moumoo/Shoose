@@ -381,10 +381,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, String> {
-
         private final String mID;
         private final String mPassword;
         private ContentValues values;
+
         UserLoginTask(String ID, String password) {
             mID = ID;
             mPassword = password;
@@ -392,11 +392,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected String doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-            /**
-             * For testing server connection.
-             */
-
             // Set URL
             String url = "http://13.125.41.85:3000/api/usr/signup";
 
@@ -410,19 +405,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             JSONObject result_json_obj;
             RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
 
-            result_json_obj = requestHTTPURLConnection.request(url, values); // Get result message from corresponding URL
             try {
-                message = (String) result_json_obj.get("message");
-                return message;
+                return requestHTTPURLConnection.request(url, values).get("message").toString(); // Get result message from corresponding URL
             } catch (JSONException e) {
                 e.printStackTrace();
+                return null;
             }
-            return null;
 
             /**
              * continue from below /* part.
              */
-
         }
 
         @Override
