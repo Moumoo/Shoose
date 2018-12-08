@@ -3,6 +3,7 @@ package ehersenaw.com.github.shoose;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
+import android.media.Rating;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -26,6 +29,8 @@ public class SurveyActivity3 extends AppCompatActivity {
     Integer[] images={R.drawable.s1,R.drawable.s2,R.drawable.s3,R.drawable.s4,R.drawable.s5,R.drawable.s6,
             R.drawable.s7,R.drawable.s8,R.drawable.s9,R.drawable.s10,R.drawable.s11,R.drawable.s12,
             R.drawable.s13,R.drawable.s14,R.drawable.s15,R.drawable.s16};
+
+    float[] ratings = new float[names.length];//rating 기록
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -46,7 +51,7 @@ public class SurveyActivity3 extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(SurveyActivity3.this, SurveyActivity2.class);
+                Intent intent = new Intent(SurveyActivity3.this, SurveyActivity2_1.class);
                 startActivity(intent);
             }
         });
@@ -60,7 +65,7 @@ public class SurveyActivity3 extends AppCompatActivity {
             }
 
         });
-    }
+}
 
     public class CustomList extends ArrayAdapter<String>{
         private final Activity context;
@@ -71,14 +76,32 @@ public class SurveyActivity3 extends AppCompatActivity {
 
         @Override
         public View getView(int position, View view, ViewGroup parent){
+            View row=view;
+            if(row==null){
+                LayoutInflater inflater=getLayoutInflater();
+                row=inflater.inflate(R.layout.listitem,parent,false);
+            }
             LayoutInflater inflater=context.getLayoutInflater();
-            View rowView=inflater.inflate(R.layout.listitem,null,true);
-            ImageView imageView=(ImageView)rowView.findViewById(R.id.image);
-            TextView nameView=(TextView)rowView.findViewById(R.id.name);
-            nameView.setText(names[position]);
+
+            ImageView imageView=(ImageView)row.findViewById(R.id.image);
             imageView.setImageResource(images[position]);
 
-            return rowView;
+            TextView nameView=(TextView)row.findViewById(R.id.name);
+            nameView.setText(names[position]);
+
+            RatingBar rb = (RatingBar)row.findViewById(R.id.rating);
+            rb.setRating(ratings[position]);
+            rb.setTag(position);
+            rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener(){
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser){
+                    if(!fromUser)
+                        return;
+                    int index = (Integer)(ratingBar.getTag());
+                    ratings[index]=rating;
+                }
+            });
+
+            return row;
         }
     }
 }
