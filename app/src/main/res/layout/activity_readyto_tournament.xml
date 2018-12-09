@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="#11003566">
+        <ImageButton
+            android:id="@+id/mark"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:background="@drawable/shoose_mark"
+            android:layout_marginTop="100dp"/>
+        <Button
+            android:id="@+id/start_tournament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_tm_btn"
+            android:text="토너먼트 시작하기"
+            android:textColor="#eeeeee"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -511,7 +511,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 } else {
                     /* Switch to TabActivity */
                     // Set Intent
-                    Intent intent = new Intent(getApplicationContext(), TabActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ReadyTo_TournamentActivity.class);
                     intent.putExtra("hasNAVEROAuth", false);
                     intent.putExtra("ID", mID);
                     intent.putExtra("password", mPassword);
