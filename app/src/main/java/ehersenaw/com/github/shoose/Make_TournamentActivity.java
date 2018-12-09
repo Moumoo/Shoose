@@ -1,33 +1,34 @@
 package ehersenaw.com.github.shoose;
 
+import android.app.Dialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import java.util.List;
+import android.widget.RatingBar;
 
 public class Make_TournamentActivity extends AppCompatActivity{
     //ready에서 이미지 번호 받아와서 저장
     //16강전 만들기
     //winner들 데이터 전달하기
 
-    ImageView imgbtn1, imgbtn2;
+    ImageView imgbtn1, imgbtn2, imgwin;
 
     Integer[] images={R.drawable.s1,R.drawable.s2,R.drawable.s3,R.drawable.s4,R.drawable.s5,R.drawable.s6,
             R.drawable.s7,R.drawable.s8,R.drawable.s9,R.drawable.s10,R.drawable.s11,R.drawable.s12,
             R.drawable.s13,R.drawable.s14,R.drawable.s15,R.drawable.s16};//16강
 
-    int index=0, phase_num=1;
+    int index=0, phase_num=1,win_index;
     Integer phase2[]=new Integer[8];
     Integer phase3[]=new Integer[4];
     Integer phase4[]=new Integer[2];
 
     Boolean check=true;
+
+    float winnerScore=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +114,46 @@ public class Make_TournamentActivity extends AppCompatActivity{
                     break;
 
                 case 4:
+                    if(view.getId()==R.id.can1)
+                        win_index=phase4[index];
+                    else
+                        win_index=phase4[index+1];
+
+                    phase_num++;
+
                     break;
             }
+            if(phase_num==5){
+                final Dialog winnerDialog=new Dialog(Make_TournamentActivity.this);
+                winnerDialog.setContentView(R.layout.dialog_winner);
+                winnerDialog.setTitle("토너먼트 우승자");
+
+                imgwin=(ImageView)winnerDialog.findViewById(R.id.winner);
+                imgwin.setImageResource(images[win_index]);
+
+                final RatingBar score = (RatingBar)winnerDialog.findViewById(R.id.score);
+
+                score.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        winnerScore=rating;
+                    }
+                });
+
+                Button closebtn=(Button)winnerDialog.findViewById(R.id.close);
+                closebtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+
+                winnerDialog.show();
+            }
+
+            //if(winnerScore!=0)
+
+
             return false;
         }
     };
