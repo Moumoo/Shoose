@@ -132,4 +132,12 @@ public class TabActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public String getToken(){
+        return Token;
+    }
+
+    public int getSN(){
+        return SN;
+    }
 }

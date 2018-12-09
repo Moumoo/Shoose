@@ -46,13 +46,13 @@ public class ProductDetailDialogFragment extends DialogFragment{
         Bundle bundle = getArguments();
         if(bundle != null){
             final Product shoose = (Product) bundle.getParcelable("shoose");
-            detailProduct_SN.setText("품번 : "+Integer.toString(shoose.product_SN));
-            detailName.setText("품명 : "+shoose.name);
+            detailProduct_SN.setText("품번 : "+Integer.toString(shoose.pid));
+            detailName.setText("품명 : "+shoose.pname);
             detailPrice.setText("가격 : "+Integer.toString(shoose.price));
             detailBrand.setText("상표 : "+shoose.brand);
             detailType.setText("분류 : "+shoose.type);
             detailPoint.setText("평점 : "+Double.toString(shoose.point));
-            shopUrl = shoose.shop_url;
+            shopUrl = shoose.link;
 
             Thread imgThread = new Thread(){
                 @Override

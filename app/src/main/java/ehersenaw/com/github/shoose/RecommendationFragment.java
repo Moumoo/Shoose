@@ -180,7 +180,7 @@ public class RecommendationFragment extends Fragment{
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("shoose",shoose);
                     productDetailDialogFragment.setArguments(bundle);
-                    productDetailDialogFragment.show(fm,shoose.name);
+                    productDetailDialogFragment.show(fm,shoose.pname);
                 }
             });
 
@@ -191,8 +191,8 @@ public class RecommendationFragment extends Fragment{
             type = (TextView) findViewById(R.id.type);
             product_img = (ImageView) findViewById(R.id.product_img);
 
-            product_SN.setText("품번 : "+Integer.toString(shoose.product_SN));
-            name.setText("품명 : "+shoose.name);
+            product_SN.setText("품번 : "+Integer.toString(shoose.pid));
+            name.setText("품명 : "+shoose.pname);
             price.setText("가격 : "+Integer.toString(shoose.price)+" 원");
             brand.setText("상표 : "+shoose.brand);
             type.setText("분류 : "+shoose.type);
