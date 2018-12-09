@@ -39,6 +39,8 @@ public class TabActivity extends AppCompatActivity {
     private String mID;
     private String mPassword;
     private int SN;
+    private String Token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +62,7 @@ public class TabActivity extends AppCompatActivity {
         mID = intent.getExtras().getString("ID");
         mPassword = intent.getExtras().getString("password");
         SN = intent.getExtras().getInt("SN");
+        Token = intent.getExtras().getString("Token");
 
         LA.finish();
 
@@ -121,6 +124,7 @@ public class TabActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClassName(this, "ehersenaw.com.github.shoose.SettingPreferenceActivity");
                 intent.putExtra("SN",SN);
+                intent.putExtra("Token", Token);
                 startActivity(intent);
                 return true;
             }

@@ -43,22 +43,24 @@ public class RequestHTTPURLConnection {
 
             for (Map.Entry<String,Object> parameter : _params.valueSet()) {
                 key = parameter.getKey();
-                value = parameter.getValue().toString();
+                //if (!key.equals("Cookie")) {
+                    value = parameter.getValue().toString();
 
-                // If num of parameter is >= 2, put '&' between parameters.
-                if (isAnd)
-                    sbParams.append("&");
-                try {
-                    j_obj.put(key, value);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                //sbParams.append(key).append("=").append(value);
+                    // If num of parameter is >= 2, put '&' between parameters.
+                    if (isAnd)
+                        sbParams.append("&");
+                    try {
+                        j_obj.put(key, value);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    //sbParams.append(key).append("=").append(value);
 
-                // If num of parameter is >= 2, make 'isAnd' to 'true' and start adding '&' from next loop
-                if (!isAnd)
-                    if (_params.size() >= 2)
-                        isAnd = true;
+                    // If num of parameter is >= 2, make 'isAnd' to 'true' and start adding '&' from next loop
+                    if (!isAnd)
+                        if (_params.size() >= 2)
+                            isAnd = true;
+                //}
             }
         }
         /**
@@ -73,12 +75,21 @@ public class RequestHTTPURLConnection {
             urlConn.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-charset settings
             urlConn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
             urlConn.setRequestProperty("Accept", "application/json");
+
+            if (j_obj.has("Cookie")) {
+                String _token = j_obj.get("Cookie").toString();
+                _token = "user="+_token;
+                urlConn.setRequestProperty("Cookie", _token);
+                Log.i("user_token", _token);
+                j_obj.remove("Cookie");
+            }
+
             urlConn.setDoOutput(true);
             urlConn.setDoInput(true);
 
             // [2-2]. parameter delivery and read data
             String strParams = j_obj.toString(); // Save j_obj's Parameters as string.
-            //Log.i("strParams", strParams);
+            Log.i("strParams", strParams);
             /*
             JSONObject job = new JSONObject();
             job.put("ID", "asdfNyang1");
@@ -91,7 +102,7 @@ public class RequestHTTPURLConnection {
 
             String response;
             int responseCode = urlConn.getResponseCode();
-            //Log.i("responseCode", String.format("%d",responseCode));
+            Log.i("responseCode", String.format("%d",responseCode));
 
             os.close(); // Shutdown output stream
 
