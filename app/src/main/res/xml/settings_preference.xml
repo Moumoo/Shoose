@@ -21,7 +21,7 @@
 
         <ListPreference
             android:key="genderPreference"
-            android:defaultValue="남성"
+            android:defaultValue="default_gender"
             android:entries="@array/my_profile_gender"
             android:entryValues="@array/my_profile_gender_values"
             android:negativeButtonText="@null"
@@ -51,6 +51,39 @@
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="Edit e-Mail" />
+
+        <EditTextPreference
+            android:key="agePreference"
+            android:defaultValue="default_age"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Edit age" />
+
+        <EditTextPreference
+            android:key="prefer_colorPreference"
+            android:defaultValue="default_prefer_color"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Edit prefer_color" />
+
+        <EditTextPreference
+            android:key="prefer_brandPreference"
+            android:defaultValue="default_prefer_brand"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Edit prefer_brand" />
+
+        <EditTextPreference
+            android:key="prefer_typePreference"
+            android:defaultValue="default_prefer_type"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Edit prefer_type" />
+
 
     </PreferenceCategory>
 
