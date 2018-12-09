@@ -11,15 +11,14 @@
 
     <string-array name="style">
         <item>전체</item>
-        <item>캔버스/단화</item>
-        <item>부츠</item>
-        <item>힐/펌프스</item>
-        <item>로퍼</item>
         <item>구두</item>
-        <item>런닝/피트니스화</item>
-        <item>농구화</item>
-        <item>기타</item>
-        <item>샌들/플리플랍/슬리퍼</item>
+        <item>부츠</item>
+        <item>힐</item>
+        <item>런닝화</item>
+        <item>샌들</item>
+        <item>스니커즈</item>
+        <item>슬립온</item>
+        <item>컨버스화</item>
     </string-array>
 
     <string-array name="brand">
@@ -27,10 +26,10 @@
         <item>나이키</item>
         <item>아디다스</item>
         <item>반스</item>
-        <item>언더아머</item>
-        <item>팀버랜드</item>
-        <item>닥터마틴</item>
-        <item>닥스</item>
+        <item>버켄스탁</item>
+        <item>푸마</item>
+        <item>크록스</item>
+        <item>누우보</item>
         <item>기타</item>
     </string-array>
 

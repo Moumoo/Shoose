@@ -29,14 +29,17 @@ public class JSONParser{
 
     public Product putProdcut(JSONObject jobject, Product product) {
         try {
-            product.product_SN = jobject.getInt("product_SN");
+            product.pid = jobject.getInt("pid");
             product.type = jobject.getString("type");
-            product.name = jobject.getString("name");
-            product.price = jobject.getInt("price");
+            product.pname = jobject.getString("pname");
+            if(jobject.has("price")) product.price = jobject.getInt("price");
+            else product.price = 0;
             product.brand = jobject.getString("brand");
             product.img_url = jobject.getString("img_url");
-            product.point = jobject.getDouble("point");
-            product.shop_url = jobject.getString("shop_url");
+            if(jobject.has("point")) product.point = jobject.getDouble("point");
+            else product.point = 0;
+            if(jobject.has("link") &&jobject.getString("link") != null) product.link = jobject.getString("link");
+            else product.link = "https://m.sports.naver.com/kbaseball/news/read.nhn?oid=081&aid=0002961772";
         } catch (JSONException e) {
             e.printStackTrace();
         }

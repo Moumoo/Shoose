@@ -15,6 +15,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class RequestHTTPURLConnection {
@@ -144,6 +146,95 @@ public class RequestHTTPURLConnection {
 
             Log.i(TAG, "DATA Response = " + response);
             */
+            return responseJSON;
+        } catch (MalformedURLException e) { // for URL.
+            e.printStackTrace();
+        } catch (IOException e) { // for openConnection()
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+            if (urlConn != null)
+                urlConn.disconnect();
+        }
+
+        return null;
+    }
+
+    public JSONObject requestByGet(String _url, ContentValues _params) throws CustomizedException{
+        // HttpURLConnection 참조 변수
+        HttpURLConnection urlConn = null;
+        // URL 뒤에 붙여서 보낼 패러미터
+        StringBuffer sbParams = new StringBuffer();
+        JSONObject j_obj = new JSONObject();
+
+        if (_params == null)
+            sbParams.append("");
+        else {
+            String key;
+            String value;
+
+            for (Map.Entry<String,Object> parameter : _params.valueSet()) {
+                key = parameter.getKey();
+                value = parameter.getValue().toString();
+                try {
+                    j_obj.put(key, value);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        try{
+            URL url = new URL(_url);
+            urlConn = (HttpURLConnection) url.openConnection();
+            urlConn.setRequestMethod("GET"); // URL request method: POST
+            urlConn.setRequestProperty("Cache-Control", "no-cache");
+            urlConn.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-charset settings
+            urlConn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            urlConn.setRequestProperty("Accept", "application/json");
+            urlConn.setDoInput(true);
+
+            if (j_obj.has("Cookie")) {
+                String _token = j_obj.get("Cookie").toString();
+                Log.d(TAG, "requestByGet: "+_token);
+                _token = "user="+_token;
+                urlConn.setRequestProperty("Cookie", _token);
+                Log.i("user_token", _token);
+                j_obj.remove("Cookie");
+            }
+
+            String response;
+            int responseCode = urlConn.getResponseCode();
+            Log.d("responseCode", String.format("%d",responseCode));
+
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                Log.d(TAG, "requestByGet: "+responseCode);
+                if (responseCode == HttpURLConnection.HTTP_CONFLICT) {
+                    // During Sign up
+                    throw new CustomizedException("CONFLICT");
+                } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                    // During Log in
+                    throw new CustomizedException("NOT_FOUND");
+                } else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
+                    // Server error
+                    throw new CustomizedException("INTERNAL_ERROR");
+                }
+                return null;
+            }
+            InputStream is = urlConn.getInputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] byteBuffer = new byte[300*1024];
+            byte[] byteData = null;
+            int nLength = 0;
+            while((nLength = is.read(byteBuffer, 0, byteBuffer.length)) != -1) {
+                baos.write(byteBuffer, 0, nLength);
+            }
+            byteData = baos.toByteArray();
+
+            response = new String(byteData);
+            JSONObject responseJSON = new JSONObject(response);
+
+            Log.d(TAG, "requestByGet: "+responseJSON);
             return responseJSON;
         } catch (MalformedURLException e) { // for URL.
             e.printStackTrace();
