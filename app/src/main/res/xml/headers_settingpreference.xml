@@ -5,6 +5,10 @@
     <header
         android:fragment="ehersenaw.com.github.shoose.SettingPreferenceFragment"
         android:title="My profile customization"
-        android:summary="User customization" />
+        android:summary="User customization" >
+
+        <extra android:name="SN" android:value="9"/>
+        <extra android:name="Token" android:value="DefaultToken"/>
+    </header>
 
 </preference-headers>
