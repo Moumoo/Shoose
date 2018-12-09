@@ -47,19 +47,74 @@ public class Make_TournamentActivity extends AppCompatActivity{
 
     public View.OnTouchListener imgTouch = new View.OnTouchListener(){
         public boolean onTouch(View view, MotionEvent event){
-            if (view.getId()==R.id.can1)
-                phase2[index/2]=index;
-            else
-                phase2[index/2]=index+1;
+            switch (phase_num) {
+                case 1:
+                    if (view.getId() == R.id.can1)
+                        phase2[index / 2] = index;
+                    else
+                        phase2[index / 2] = index + 1;
 
-            index=index+2;
+                    index = index + 2;
 
-            if(index==images.length)
-                return false;
+                    if (index == images.length) {
+                        index=0;
+                        phase_num++;
+                        imgbtn1.setImageResource(images[phase2[index]]);
+                        imgbtn2.setImageResource(images[phase2[index + 1]]);
 
-            imgbtn1.setImageResource(images[index]);
-            imgbtn2.setImageResource(images[index + 1]);
+                        return false;
+                    }
 
+                    imgbtn1.setImageResource(images[index]);
+                    imgbtn2.setImageResource(images[index + 1]);
+
+                    break;
+
+                case 2:
+                    if (view.getId() == R.id.can1)
+                    phase3[index / 2] = phase2[index];
+                else
+                    phase3[index / 2] = phase2[index + 1];
+
+                    index = index + 2;
+
+                    if (index == phase2.length) {
+                        index=0;
+                        phase_num++;
+                        imgbtn1.setImageResource(images[phase3[index]]);
+                        imgbtn2.setImageResource(images[phase3[index + 1]]);
+
+                        return false;
+                    }
+
+                    imgbtn1.setImageResource(images[phase2[index]]);
+                    imgbtn2.setImageResource(images[phase2[index + 1]]);
+                    break;
+
+                case 3:
+                    if (view.getId() == R.id.can1)
+                        phase4[index / 2] = phase3[index];
+                    else
+                        phase4[index / 2] = phase3[index + 1];
+
+                    index = index + 2;
+
+                    if (index == phase3.length) {
+                        index=0;
+                        phase_num++;
+                        imgbtn1.setImageResource(images[phase4[index]]);
+                        imgbtn2.setImageResource(images[phase4[index + 1]]);
+
+                        return false;
+                    }
+
+                    imgbtn1.setImageResource(images[phase3[index]]);
+                    imgbtn2.setImageResource(images[phase3[index + 1]]);
+                    break;
+
+                case 4:
+                    break;
+            }
             return false;
         }
     };
