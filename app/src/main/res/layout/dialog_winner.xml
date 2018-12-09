@@ -40,16 +40,33 @@
             android:layout_marginTop="10dp"
             android:numStars="5"
             android:stepSize="1.0"/>
-        <Button
-            android:id="@+id/close"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/custom_tm_btn"
-            android:text="닫기"
-            android:textColor="#eeeeee"
-            android:textStyle="bold"
-            android:textSize="14dp"/>
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp">
+            <Button
+                android:id="@+id/goshop"
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/custom_tm_btn"
+                android:text="쇼핑몰로 가기"
+                android:textColor="#eeeeee"
+                android:textStyle="bold"
+                android:textSize="14dp"/>
+            <Button
+                android:id="@+id/close"
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/custom_tm_btn"
+                android:text="창 닫기"
+                android:textColor="#eeeeee"
+                android:textStyle="bold"
+                android:textSize="14dp"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 
