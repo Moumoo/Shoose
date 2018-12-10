@@ -328,12 +328,6 @@ public class SearchFragment extends Fragment {
             super(context, attrs, defStyleAttr);
         }
 
-//        @Override
-//        public void bringToFront() {
-//            super.bringToFront();
-//        }
-//
-
         private void initView(final Product shoose){
             String infService = Context.LAYOUT_INFLATER_SERVICE;
             LayoutInflater li = (LayoutInflater) getContext().getSystemService(infService);
@@ -346,12 +340,9 @@ public class SearchFragment extends Fragment {
 
                 @Override
                 public void onClick(View v) {
-                    FragmentManager fm = getFragmentManager();
-                    ProductDetailDialogFragment productDetailDialogFragment = new ProductDetailDialogFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("shoose",shoose);
-                    productDetailDialogFragment.setArguments(bundle);
-                    productDetailDialogFragment.show(fm,shoose.pname);
+                    //서버 연동해서 평점 받아와서 프래그먼트로 넘기기: ddd
+                    LoadDetailTask loadDetailTask = new LoadDetailTask(shoose,Token);
+                    loadDetailTask.execute();
                 }
             });
 
@@ -394,6 +385,79 @@ public class SearchFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+
+        public class LoadDetailTask extends AsyncTask<Void,Void,String>{
+            private ContentValues values;
+            private String token;
+            private Product shoose;
+
+            LoadDetailTask(Product shoose, String token){
+                this.shoose = shoose;
+                this.token = token;
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                String url = "http://13.125.41.85:3000/api/prod/like/"+SN+"/"+shoose.pid;
+                Log.d(TAG, "doInBackground: ddd : "+url);
+                values = new ContentValues();
+                values.clear();
+                values.put("Cookie",token);
+
+                String message;
+                RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
+
+                String response = requestHTTPURLConnection.requestByGet(url, values);
+                return response;
+            }
+
+            @Override
+            protected void onPostExecute(final String message) {
+                if(message!=null){
+                    if(message.equals("HTTP_NOT_FOUND")){
+                        Log.d(TAG, "onPostExecute: ddd : 0점입니당");
+                        shoose.user_score = 0;
+
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("shoose",shoose);
+
+                        FragmentManager fm = getFragmentManager();
+                        ProductDetailDialogFragment productDetailDialogFragment = new ProductDetailDialogFragment();
+                        productDetailDialogFragment.setArguments(bundle);
+                        productDetailDialogFragment.show(fm,shoose.pname);
+                    }
+                    else {
+                        try {
+                            JSONArray jsonArr_response = new JSONArray(message);
+                            JSONObject jsonObj = (JSONObject) jsonArr_response.get(0);
+
+                            Log.d(TAG, "onPostExecute: ddd : "+jsonObj.get("score").getClass().getName());
+                            switch (jsonObj.get("score").getClass().getName()){
+                                case "java.lang.Integer":
+                                    shoose.user_score = ((Integer)jsonObj.get("score")).doubleValue();
+                                    break;
+                                default:
+                                    shoose.user_score = (double) jsonObj.get("score");
+                                    break;
+                            }
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("shoose",shoose);
+
+                            FragmentManager fm = getFragmentManager();
+                            ProductDetailDialogFragment productDetailDialogFragment = new ProductDetailDialogFragment();
+                            productDetailDialogFragment.setArguments(bundle);
+                            productDetailDialogFragment.show(fm,shoose.pname);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+//                        Log.d(TAG, "onPostExecute : ddd : "+message);
+                    }
+                }else{
+                    Toast.makeText(getContext(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT);
+                    return;
+                }
+            }
+        }
     }
 
     public class SearchTask extends AsyncTask<Void, Void, String> {
@@ -415,8 +479,10 @@ public class SearchFragment extends Fragment {
 
             String message;
             RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
-            JSONObject jsonObj_response = requestHTTPURLConnection.requestByGet(url, values);;
+            String response = requestHTTPURLConnection.requestByGet(url, values);;
+
             try {
+                JSONObject jsonObj_response = new JSONObject(response);
                 return jsonObj_response.get("items").toString();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -431,10 +497,7 @@ public class SearchFragment extends Fragment {
             if(message!=null){
                 originProducts = jsonparser.doJSONParse(message);
                 products = originProducts;
-//                Log.d(TAG, "onPostExecute: kdy0962 : "+message);
-//                Log.d(TAG, "onPostExecute: size : "+products.size());
             }else{
-//                Log.d(TAG, "onPostExecute: kdy0962 : null");
                 Toast.makeText(getContext(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT);
                 return;
             }
