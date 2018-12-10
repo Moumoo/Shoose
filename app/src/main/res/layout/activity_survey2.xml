@@ -17,205 +17,191 @@
             android:layout_height="wrap_content"
             android:background="@drawable/title"
             android:text="당신이 선호하는 색상은?"
-            android:layout_below="@id/backButton"
-            android:layout_marginTop="5dp"
             android:textColor="#eeeeee"
             android:textSize="17dp"
             android:textStyle="bold" />
 
-        <ToggleButton
-            android:id="@+id/red"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/color"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="빨강색"
-            android:textOn="빨강색 "
-            android:onClick="onToggleClicked" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/color"
+            android:id="@+id/check_color">
+            <ToggleButton
+                android:id="@+id/red"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/color"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="빨강색"
+                android:textOn="빨강색 "
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp"/>
 
-        <ToggleButton
-            android:id="@+id/orange"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/color"
-            android:layout_alignLeft="@id/red"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="주황색"
-            android:textOn="주황색"
-            android:onClick="onToggleClicked" />
+            <ToggleButton
+                android:id="@+id/orange"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/color"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="주황색"
+                android:textOn="주황색"
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp"/>
 
-        <ToggleButton
-            android:id="@+id/yellow"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/color"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignRight="@id/gold"
-            android:layout_marginRight="115dp"
-            android:layout_marginEnd="115dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="노랑색"
-            android:textOn="노랑색"
-            android:onClick="onToggleClicked"/>
+            <ToggleButton
+                android:id="@+id/yellow"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/color"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="노랑색"
+                android:textOn="노랑색"
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp"/>
 
-        <ToggleButton
-            android:id="@+id/gold"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/color"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="금색"
-            android:textOn="금색"
-            android:onClick="onToggleClicked"/>
-        //
+            <ToggleButton
+                android:id="@+id/gold"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/color"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="금색"
+                android:textOn="금색"
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+        </LinearLayout>
+            //
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/check_color"
+            android:id="@+id/check_color2">
+            <ToggleButton
+                android:id="@+id/silver"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/red"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="은색"
+                android:textOn="은색 "
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp" />
 
-        <ToggleButton
-            android:id="@+id/silver"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/red"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="은색"
-            android:textOn="은색 "
-            android:onClick="onToggleClicked" />
+            <ToggleButton
+                android:id="@+id/green"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/red"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="초록색"
+                android:textOn="초록색"
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp"/>
 
-        <ToggleButton
-            android:id="@+id/green"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/red"
-            android:layout_alignLeft="@id/red"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="초록색"
-            android:textOn="초록색"
-            android:onClick="onToggleClicked" />
+            <ToggleButton
+                android:id="@+id/blue"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/red"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="파랑색"
+                android:textOn="파랑색"
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp"/>
 
-        <ToggleButton
-            android:id="@+id/blue"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/red"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignRight="@id/gold"
-            android:layout_marginRight="115dp"
-            android:layout_marginEnd="115dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="파랑색"
-            android:textOn="파랑색"
-            android:onClick="onToggleClicked"/>
+            <ToggleButton
+                android:id="@+id/purple"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/red"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="보라색"
+                android:textOn="보라색"
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+        </LinearLayout>
+            //
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/check_color2"
+            android:id="@+id/check_color3">
+            <ToggleButton
+                android:id="@+id/beige"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/silver"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="베이지색"
+                android:textOn="베이지색 "
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp"/>
 
-        <ToggleButton
-            android:id="@+id/purple"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/red"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="보라색"
-            android:textOn="보라색"
-            android:onClick="onToggleClicked"/>
-        //
+            <ToggleButton
+                android:id="@+id/white"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/silver"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="흰색"
+                android:textOn="흰색"
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp"/>
 
-        <ToggleButton
-            android:id="@+id/beige"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/silver"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="베이지색"
-            android:textOn="베이지색 "
-            android:onClick="onToggleClicked" />
+            <ToggleButton
+                android:id="@+id/gray"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/silver"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="회색"
+                android:textOn="회색"
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp"/>
 
-        <ToggleButton
-            android:id="@+id/white"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/silver"
-            android:layout_alignLeft="@id/red"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="흰색"
-            android:textOn="흰색"
-            android:onClick="onToggleClicked" />
+            <ToggleButton
+                android:id="@+id/black"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/silver"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_togglebtn2"
+                android:textOff="검정색"
+                android:textOn="검정색"
+                android:onClick="onToggleClicked"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
 
-        <ToggleButton
-            android:id="@+id/gray"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/silver"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignRight="@id/gold"
-            android:layout_marginRight="115dp"
-            android:layout_marginEnd="115dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="회색"
-            android:textOn="회색"
-            android:onClick="onToggleClicked"/>
-
-        <ToggleButton
-            android:id="@+id/black"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/silver"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="검정색"
-            android:textOn="검정색"
-            android:onClick="onToggleClicked"/>
+        </LinearLayout>
 
         <!-- 브랜드 -->
         <TextView
@@ -223,7 +209,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/title"
-            android:layout_below="@+id/white"
+            android:layout_below="@+id/check_color3"
             android:layout_marginTop="20dp"
             android:text="당신이 선호하는 브랜드는?"
             android:textColor="#eeeeee"
@@ -425,8 +411,10 @@
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:background="@drawable/custom_button"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
             android:text="이전"
             android:textColor="#eeeeee"
             android:textSize="17dp"
@@ -439,7 +427,9 @@
             android:layout_height="40dp"
             android:background="@drawable/custom_button"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
             android:text="다음"
             android:textColor="#eeeeee"
             android:textSize="17dp"
