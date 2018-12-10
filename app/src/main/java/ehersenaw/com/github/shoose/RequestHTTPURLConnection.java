@@ -43,26 +43,42 @@ public class RequestHTTPURLConnection {
             String key;
             String value;
 
+//            boolean flag = false;
+//            for (Map.Entry<String,Object> parameter : _params.valueSet()){
+//                String flag_key = parameter.getKey();
+//                if(flag_key.equals("flag")){
+//                    flag = !flag;
+//                }
+//            }
+
+
             for (Map.Entry<String,Object> parameter : _params.valueSet()) {
                 key = parameter.getKey();
-                //if (!key.equals("Cookie")) {
-                    value = parameter.getValue().toString();
+                value = parameter.getValue().toString();
 
                     // If num of parameter is >= 2, put '&' between parameters.
                     if (isAnd)
                         sbParams.append("&");
                     try {
-                        j_obj.put(key, value);
+                        if (key.equals("pid")||key.equals("SN")||key.equals("score")){
+                            int int_val = Integer.parseInt(value);
+                            j_obj.put(key,int_val);
+                        }
+//                        else if(key.equals("score")){
+//                            double double_val =  Double.parseDouble(value);
+//                        }
+                        else {
+                            j_obj.put(key, value);
+                        }
+                        Log.d(TAG, "request-key : "+key+", -value : "+ value);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    //sbParams.append(key).append("=").append(value);
 
                     // If num of parameter is >= 2, make 'isAnd' to 'true' and start adding '&' from next loop
                     if (!isAnd)
                         if (_params.size() >= 2)
                             isAnd = true;
-                //}
             }
         }
         /**
@@ -104,7 +120,7 @@ public class RequestHTTPURLConnection {
 
             String response;
             int responseCode = urlConn.getResponseCode();
-            Log.i("responseCode", String.format("%d",responseCode));
+            Log.i("responseCode", "responseCode : "+String.format("%d",responseCode));
 
             os.close(); // Shutdown output stream
 
@@ -161,7 +177,7 @@ public class RequestHTTPURLConnection {
         return null;
     }
 
-    public JSONObject requestByGet(String _url, ContentValues _params) throws CustomizedException{
+    public String requestByGet(String _url, ContentValues _params) throws CustomizedException{
         // HttpURLConnection 참조 변수
         HttpURLConnection urlConn = null;
         // URL 뒤에 붙여서 보낼 패러미터
@@ -214,7 +230,9 @@ public class RequestHTTPURLConnection {
                     throw new CustomizedException("CONFLICT");
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                     // During Log in
-                    throw new CustomizedException("NOT_FOUND");
+                    String err_msg = "HTTP_NOT_FOUND";
+                    return err_msg;
+//                    throw new CustomizedException("NOT_FOUND");
                 } else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
                     // Server error
                     throw new CustomizedException("INTERNAL_ERROR");
@@ -232,10 +250,10 @@ public class RequestHTTPURLConnection {
             byteData = baos.toByteArray();
 
             response = new String(byteData);
-            JSONObject responseJSON = new JSONObject(response);
+            Log.d(TAG, "requestByGet: "+response);
+            return response;
 
-            Log.d(TAG, "requestByGet: "+responseJSON);
-            return responseJSON;
+
         } catch (MalformedURLException e) { // for URL.
             e.printStackTrace();
         } catch (IOException e) { // for openConnection()

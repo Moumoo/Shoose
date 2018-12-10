@@ -40,6 +40,8 @@ public class JSONParser{
             else product.point = 0;
             if(jobject.has("link") &&jobject.getString("link") != null) product.link = jobject.getString("link");
             else product.link = "https://m.sports.naver.com/kbaseball/news/read.nhn?oid=081&aid=0002961772";
+            if(jobject.has("user_score")) product.user_score = jobject.getDouble("user_score");
+            else  product.user_score = 0;
         } catch (JSONException e) {
             e.printStackTrace();
         }
