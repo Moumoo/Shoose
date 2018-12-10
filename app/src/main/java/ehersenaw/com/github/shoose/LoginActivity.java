@@ -469,6 +469,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (message.equals("success")) {
                     // TODO: Notify "Sign up success"
                     Log.i("success_sign_up", "success");
+                    // TODO: Do survey and return to here when finished.
+                    /* Switch to SurveyActivity */
+                    // Set Intent
+                    Intent intent = new Intent(getApplicationContext(), SurveyActivity.class);
+                    intent.putExtra("hasNAVEROAuth", false);
+                    intent.putExtra("ID", mID);
+                    intent.putExtra("password", mPassword);
+                    // TODO: If SurveyActivity needs SN & Token, SurveyActivity should request those to server by ID&password.
+                    // TODO: If needed, reference LoginActivity(this activity)'s UserLoginTask.
+                    Log.i("intent to survey", intent.getExtras().toString());
+                    int surveyResult = 0;
+                    startActivityForResult(intent, surveyResult);
+                    //finish();
+                    /* */
 
                 } else if (message.equals("CONFLICT")) {
                     // ID already exists.
