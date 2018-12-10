@@ -108,12 +108,7 @@ public class RequestHTTPURLConnection {
             // [2-2]. parameter delivery and read data
             String strParams = j_obj.toString(); // Save j_obj's Parameters as string.
             Log.i("strParams", strParams);
-            /*
-            JSONObject job = new JSONObject();
-            job.put("ID", "asdfNyang1");
-            job.put("password", "asdfPass");
-            Log.i("JSONObj", job.toString());
-            */
+
             OutputStream os = urlConn.getOutputStream();
             os.write(strParams.getBytes("UTF-8")); // Print to output stream.
             os.flush(); // Flush the output stream
