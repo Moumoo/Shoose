@@ -60,8 +60,7 @@ public class SurveyActivity3 extends AppCompatActivity {
         finishbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(SurveyActivity3.this, LoginActivity.class);
-                startActivity(intent);
+                finish();
             }
 
         });
