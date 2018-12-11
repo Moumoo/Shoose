@@ -79,7 +79,8 @@ public class ProductDetailDialogFragment extends DialogFragment{
             detailType.setText("분류 : "+shoose.type);
             detailScore.setRating((float) shoose.user_score);
             detailPoint.setText("평점 : "+Double.toString(shoose.point));
-            shopUrl = shoose.link;
+            shopUrl = "http://m.coupang.com/vm/products/17090984?vendorItemId=3111328892";
+//            shopUrl = shoose.link;
 
             Thread imgThread = new Thread(){
                 @Override
@@ -134,9 +135,11 @@ public class ProductDetailDialogFragment extends DialogFragment{
             @Override
             public void onClick(View v) {
                 //서버
-
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(shopUrl));
-                startActivity(browserIntent);
+                LinkTask linkTask = new LinkTask(Token,SN,pid);
+                linkTask.execute();
+//                Log.d(TAG, "onClick: shopUrl : "+shopUrl);
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(shopUrl));
+//                startActivity(browserIntent);
             }
 
         });
@@ -161,7 +164,6 @@ public class ProductDetailDialogFragment extends DialogFragment{
         @Override
         protected String doInBackground(Void... voids) {
             String url = "http://13.125.41.85:3000/api/prod/like";
-            Log.d(TAG, "doInBackground: ddd : "+url);
             values = new ContentValues();
             values.clear();
 
@@ -187,7 +189,7 @@ public class ProductDetailDialogFragment extends DialogFragment{
         @Override
         protected void onPostExecute(final String message) {
             if(message!=null){
-                Log.d(TAG, "onPostExecute: iii : "+message);
+//                Log.d(TAG, "onPostExecute : "+message);
 //                if (message.equals("success")){
 //                    return;
 //                }
@@ -197,4 +199,52 @@ public class ProductDetailDialogFragment extends DialogFragment{
             }
         }
     }
+
+    public class LinkTask extends AsyncTask<Void,Void,String> {
+        private ContentValues values;
+        private String token;
+        private int SN;
+        private int pid;
+        LinkTask(String token,int SN, int pid){
+            this.token = token;
+            this.SN = SN;
+            this.pid = pid;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            String url = "http://13.125.41.85:3000/api/prod/link/";
+            url+= pid;
+            url+="/"+SN;
+//            Log.d(TAG, "doInBackground: ddd : "+url);
+            values = new ContentValues();
+            values.clear();
+
+            values.put("Cookie",token);
+
+            RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
+
+            String response = requestHTTPURLConnection.requestByGet(url, values);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(final String message) {
+            if(message!=null){
+                Log.d(TAG, "onPostExecute: link_return : "+message);
+                try {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(message));
+                    startActivity(browserIntent);
+                }catch (Exception e){
+                    Toast.makeText(getContext(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT);
+                    return;
+                }
+//                }
+            }else{
+                Toast.makeText(getContext(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT);
+                return;
+            }
+        }
+    }
+
 }
