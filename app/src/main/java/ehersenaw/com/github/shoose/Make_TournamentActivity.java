@@ -1,14 +1,22 @@
 package ehersenaw.com.github.shoose;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Make_TournamentActivity extends AppCompatActivity{
@@ -21,12 +29,10 @@ public class Make_TournamentActivity extends AppCompatActivity{
             R.drawable.s7,R.drawable.s8,R.drawable.s9,R.drawable.s10,R.drawable.s11,R.drawable.s12,
             R.drawable.s13,R.drawable.s14,R.drawable.s15,R.drawable.s16};//16강
 
-    int index=0, phase_num=1,win_index;
+    int index=0, phase_num=1,win_index=-1;
     Integer phase2[]=new Integer[8];
     Integer phase3[]=new Integer[4];
     Integer phase4[]=new Integer[2];
-
-    Boolean check=true;
 
     float winnerScore=0;
 
@@ -45,124 +51,134 @@ public class Make_TournamentActivity extends AppCompatActivity{
         imgbtn1.setOnTouchListener(imgTouch);
         imgbtn2.setOnTouchListener(imgTouch);
     }
-
     public View.OnTouchListener imgTouch = new View.OnTouchListener(){
-        public boolean onTouch(View view, MotionEvent event){
-        switch (phase_num) {
-            case 1:
-                if (view.getId() == R.id.can1)
-                    phase2[index / 2] = index;
-                else
-                    phase2[index / 2] = index + 1;
+        public boolean onTouch(View view, MotionEvent event) {
+            switch (phase_num) {
+                case 1:
+                    if (view.getId() == R.id.can1)
+                        phase2[index / 2] = index;
+                    else
+                        phase2[index / 2] = index + 1;
 
-                index = index + 2;
+                    index = index + 2;
 
-                if (index == images.length) {
-                    index=0;
-                    phase_num++;
+                    if (index == images.length) {
+                        index = 0;
+                        phase_num++;
+                        imgbtn1.setImageResource(images[phase2[index]]);
+                        imgbtn2.setImageResource(images[phase2[index + 1]]);
+
+                        return false;
+                    }
+
+                    imgbtn1.setImageResource(images[index]);
+                    imgbtn2.setImageResource(images[index + 1]);
+
+                    break;
+
+                case 2:
+                    if (view.getId() == R.id.can1)
+                        phase3[index / 2] = phase2[index];
+                    else
+                        phase3[index / 2] = phase2[index + 1];
+
+                    index = index + 2;
+
+                    if (index == phase2.length) {
+                        index = 0;
+                        phase_num++;
+                        imgbtn1.setImageResource(images[phase3[index]]);
+                        imgbtn2.setImageResource(images[phase3[index + 1]]);
+
+                        return false;
+                    }
+
                     imgbtn1.setImageResource(images[phase2[index]]);
                     imgbtn2.setImageResource(images[phase2[index + 1]]);
+                    break;
 
-                    return false;
-                }
+                case 3:
+                    if (view.getId() == R.id.can1)
+                        phase4[index / 2] = phase3[index];
+                    else
+                        phase4[index / 2] = phase3[index + 1];
 
-                imgbtn1.setImageResource(images[index]);
-                imgbtn2.setImageResource(images[index + 1]);
+                    index = index + 2;
 
-                break;
+                    if (index == phase3.length) {
+                        index = 0;
+                        phase_num++;
+                        imgbtn1.setImageResource(images[phase4[index]]);
+                        imgbtn2.setImageResource(images[phase4[index + 1]]);
 
-            case 2:
-                if (view.getId() == R.id.can1)
-                phase3[index / 2] = phase2[index];
-            else
-                phase3[index / 2] = phase2[index + 1];
+                        return false;
+                    }
 
-                index = index + 2;
-
-                if (index == phase2.length) {
-                    index=0;
-                    phase_num++;
                     imgbtn1.setImageResource(images[phase3[index]]);
                     imgbtn2.setImageResource(images[phase3[index + 1]]);
+                    break;
 
-                    return false;
-                }
+                case 4:
+                    if (view.getId() == R.id.can1)
+                        win_index = phase4[index];
+                    else
+                        win_index = phase4[index + 1];
 
-                imgbtn1.setImageResource(images[phase2[index]]);
-                imgbtn2.setImageResource(images[phase2[index + 1]]);
-                break;
-
-            case 3:
-                if (view.getId() == R.id.can1)
-                    phase4[index / 2] = phase3[index];
-                else
-                    phase4[index / 2] = phase3[index + 1];
-
-                index = index + 2;
-
-                if (index == phase3.length) {
-                    index=0;
                     phase_num++;
-                    imgbtn1.setImageResource(images[phase4[index]]);
-                    imgbtn2.setImageResource(images[phase4[index + 1]]);
 
-                    return false;
-                }
+                    break;
+            }
+            if (phase_num == 5) {
+                final Dialog winnerDialog = new Dialog(Make_TournamentActivity.this);
+                winnerDialog.setContentView(R.layout.dialog_winner);
+                winnerDialog.setTitle("토너먼트 우승자");
 
-                imgbtn1.setImageResource(images[phase3[index]]);
-                imgbtn2.setImageResource(images[phase3[index + 1]]);
-                break;
+                winnerDialog.setCanceledOnTouchOutside(false);
+                winnerDialog.setCancelable(false);
 
-            case 4:
-                if(view.getId()==R.id.can1)
-                    win_index=phase4[index];
-                else
-                    win_index=phase4[index+1];
+                imgwin = (ImageView) winnerDialog.findViewById(R.id.winner);
+                imgwin.setImageResource(images[win_index]);
 
-                phase_num++;
+                final RatingBar score = (RatingBar) winnerDialog.findViewById(R.id.score);
 
-                break;
-        }
-        if(phase_num==5){
-            final Dialog winnerDialog=new Dialog(Make_TournamentActivity.this);
-            winnerDialog.setContentView(R.layout.dialog_winner);
-            winnerDialog.setTitle("토너먼트 우승자");
+                score.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        if(fromUser)
+                            winnerScore=rating;
+                    }
+                });
 
-            imgwin=(ImageView)winnerDialog.findViewById(R.id.winner);
-            imgwin.setImageResource(images[win_index]);
+                Button linkbtn = (Button) winnerDialog.findViewById(R.id.goshop);
+                linkbtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //쇼핑몰로 출발!!
+                        if(winnerScore>0){
+                            winnerDialog.setCancelable(true);
+                        }
+                        else
+                            Toast.makeText(Make_TournamentActivity.this, "점수를 매겨주세요",Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-            final RatingBar score = (RatingBar)winnerDialog.findViewById(R.id.score);
+                Button closebtn = (Button) winnerDialog.findViewById(R.id.close);
+                closebtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(winnerScore>0){
+                            winnerDialog.setCancelable(true);
+                            finish();
+                        }
+                        else
+                            Toast.makeText(Make_TournamentActivity.this, "점수를 매겨주세요",Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-            score.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    winnerScore=rating;//우승자 평점
-                }
-            });
-
-            Button linkbtn=(Button)winnerDialog.findViewById(R.id.goshop);
-            linkbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //쇼핑몰로 출발!!
-                }
-            });
-
-            Button closebtn=(Button)winnerDialog.findViewById(R.id.close);
-            closebtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-
-            winnerDialog.show();
-        }
-
-        //if(winnerScore!=0)
-
-
-        return false;
+                winnerDialog.show();
+            }
+            return false;
         }
     };
+
 }

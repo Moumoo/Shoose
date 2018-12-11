@@ -15,8 +15,9 @@
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:background="@drawable/custom_button"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"
             android:text="이전"
             android:textColor="#eeeeee"
             android:textSize="17dp"
@@ -28,7 +29,10 @@
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:background="@drawable/custom_button"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginTop="5dp"
             android:text="다음"
             android:textColor="#eeeeee"
@@ -42,172 +46,153 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/title"
-            android:layout_below="@+id/backButton"
+            android:gravity="center_horizontal"
             android:layout_marginTop="5dp"
-            android:text="당신이 선호하는 신발 스타일은?"
+            android:text="선호하는 신발 스타일"
             android:textColor="#eeeeee"
             android:textSize="17dp"
             android:textStyle="bold" />
 
-        <ToggleButton
-            android:id="@+id/slipper"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/style"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn3"
-            android:textOff="슬리퍼"
-            android:textOn="슬리퍼"
-            android:onClick="onToggleClicked"/>
+        <LinearLayout
+            android:id="@+id/row1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/style">
+            <ToggleButton
+                android:id="@+id/slipper"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_togglebtn3"
+                android:textOff="슬리퍼"
+                android:textOn="슬리퍼"
+                android:onClick="onToggleClicked"/>
 
-        <ToggleButton
-            android:id="@+id/sandle"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/style"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn3"
-            android:textOff="샌들"
-            android:textOn="샌들"
-            android:onClick="onToggleClicked" />
+            <ToggleButton
+                android:id="@+id/sandle"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_togglebtn3"
+                android:textOff="샌들"
+                android:textOn="샌들"
+                android:onClick="onToggleClicked" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/row2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/row1">
+            <ToggleButton
+                android:id="@+id/sneakers"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_togglebtn3"
+                android:textOff="스니커즈"
+                android:textOn="스니커즈"
+                android:onClick="onToggleClicked"/>
 
-        <ToggleButton
-            android:id="@+id/sneakers"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/slipper"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn3"
-            android:textOff="스니커즈"
-            android:textOn="스니커즈"
-            android:onClick="onToggleClicked"/>
+            <ToggleButton
+                android:id="@+id/slipon"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_togglebtn3"
+                android:textOff="슬립온"
+                android:textOn="슬립온"
+                android:onClick="onToggleClicked" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/row3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/row2">
+            <ToggleButton
+                android:id="@+id/gym"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_togglebtn3"
+                android:textOff="운동화"
+                android:textOn="운동화"
+                android:onClick="onToggleClicked"/>
 
-        <ToggleButton
-            android:id="@+id/slipon"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/slipper"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn3"
-            android:textOff="슬립온"
-            android:textOn="슬립온"
-            android:onClick="onToggleClicked" />
+            <ToggleButton
+                android:id="@+id/loafer"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_togglebtn3"
+                android:textOff="로퍼 / 플랫"
+                android:textOn="로퍼 / 플랫"
+                android:onClick="onToggleClicked" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/row4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/row3">
+            <ToggleButton
+                android:id="@+id/hill"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_togglebtn3"
+                android:textOff="힐 / 펌프스"
+                android:textOn="힐 / 펌프스"
+                android:onClick="onToggleClicked"/>
 
-        <ToggleButton
-            android:id="@+id/gym"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/sneakers"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn3"
-            android:textOff="운동화"
-            android:textOn="운동화"
-            android:onClick="onToggleClicked"/>
+            <ToggleButton
+                android:id="@+id/boat"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_togglebtn3"
+                android:textOff="보트슈즈"
+                android:textOn="보트슈즈"
+                android:onClick="onToggleClicked" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/row5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/row4">
+            <ToggleButton
+                android:id="@+id/walker"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_togglebtn3"
+                android:textOff="워커"
+                android:textOn="워커"
+                android:onClick="onToggleClicked"/>
 
-        <ToggleButton
-            android:id="@+id/loafer"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/slipon"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn3"
-            android:textOff="로퍼 / 플랫"
-            android:textOn="로퍼 / 플랫"
-            android:onClick="onToggleClicked" />
-
-        <ToggleButton
-            android:id="@+id/hill"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/gym"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn3"
-            android:textOff="힐 / 펌프스"
-            android:textOn="힐 / 펌프스"
-            android:onClick="onToggleClicked"/>
-
-        <ToggleButton
-            android:id="@+id/boat"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/gym"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn3"
-            android:textOff="보트슈즈"
-            android:textOn="보트슈즈"
-            android:onClick="onToggleClicked" />
-
-        <ToggleButton
-            android:id="@+id/walker"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/hill"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn3"
-            android:textOff="워커"
-            android:textOn="워커"
-            android:onClick="onToggleClicked"/>
-
-        <ToggleButton
-            android:id="@+id/boots"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/hill"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn3"
-            android:textOff="부츠"
-            android:textOn="부츠"
-            android:onClick="onToggleClicked" />
+            <ToggleButton
+                android:id="@+id/boots"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_togglebtn3"
+                android:textOff="부츠"
+                android:textOn="부츠"
+                android:onClick="onToggleClicked" />
+        </LinearLayout>
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

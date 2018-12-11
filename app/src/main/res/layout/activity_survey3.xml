@@ -3,42 +3,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#eeeeee">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:background="@drawable/custom_button"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="5dp"
-            android:text="이전"
-            android:textColor="#eeeeee"
-            android:textSize="17dp"
-            android:textStyle="bold"
-            />
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
 
         <Button
-            android:id="@+id/finishButton"
-            android:layout_width="120dp"
+            android:id="@+id/back"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/custom_button"
-            android:layout_marginTop="5dp"
-            android:layout_alignParentRight="true"
-            android:text="마침"
+            android:text="이전으로 돌아가기"
             android:textColor="#eeeeee"
             android:textSize="17dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold">
+        </Button>
 
         <ListView
             android:id="@+id/list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/backButton"
-            android:layout_marginTop="10dp"
+            android:layout_below="@+id/back"
             android:background="#eeeeee">
         </ListView>
+
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

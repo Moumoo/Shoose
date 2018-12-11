@@ -1,69 +1,112 @@
 package ehersenaw.com.github.shoose;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.media.Rating;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 public class SurveyActivity3 extends AppCompatActivity {
+
     ListView list;
     String[] names={"신발 1","신발 2", "신발 3","신발 4","신발 5","신발 6","신발 7","신발 8","신발 9",
-            "신발 10","신발 11","신발 12","신발 13","신발 14","신발 15", "신발 16"};
+            "신발 10","신발 11","신발 12","신발 13","신발 14","신발 15"};
 
     Integer[] images={R.drawable.s1,R.drawable.s2,R.drawable.s3,R.drawable.s4,R.drawable.s5,R.drawable.s6,
             R.drawable.s7,R.drawable.s8,R.drawable.s9,R.drawable.s10,R.drawable.s11,R.drawable.s12,
-            R.drawable.s13,R.drawable.s14,R.drawable.s15,R.drawable.s16};
+            R.drawable.s13,R.drawable.s14,R.drawable.s15};
 
-    float[] ratings = new float[names.length];//rating 기록
+    float[] ratings = new float[15];
+
+    boolean finish=true;
+
+    private boolean lastitemFlag=false;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey3);
 
+        Button backbtn = (Button)findViewById(R.id.back);
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        //평점들 0점으로 초기화
+        for(int i=0; i<15; i++){
+            ratings[i]=0;
+        }
+
         CustomList adapter = new CustomList(SurveyActivity3.this);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                //리스트 뷰 스크롤이 바닥에 닿았을 경우
+                if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE&&lastitemFlag) {
+                    final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SurveyActivity3.this);
+                    alertDialogBuilder.setMessage("설문조사를 끝냅니다");
+                    alertDialogBuilder.setCancelable(false);
 
+                    finish=true;
+                    for(int i=0; i<15; i++){
+                        if(ratings[i]==0)
+                            finish=false;
+                    }
+                    if(!finish)
+                        Toast.makeText(SurveyActivity3.this,"평가하지 않은 상품이 있습니다",Toast.LENGTH_SHORT).show();
+                    else {
+                        alertDialogBuilder.setPositiveButton("네",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        alertDialogBuilder.setCancelable(true);
+                                        setResult(Activity.RESULT_OK);
+                                        finish();
+                                    }
+                                });
+                        alertDialogBuilder.setNegativeButton("아니요",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        alertDialogBuilder.setCancelable(true);
+                                    }
+                                });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
+                }
             }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                lastitemFlag=(totalItemCount>0)&&(firstVisibleItem + visibleItemCount>=totalItemCount);
+            }
+            //totalItemCount==리스트의 전체 갯수
+            //visibleItemCount==현재 화면에 보이는 리스트 갯수
+            //firstVisibleItem==첫번째 아이템 번호
         });
 
-        Button backbtn=(Button)findViewById(R.id.backButton);
-        backbtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(SurveyActivity3.this, SurveyActivity2_1.class);
-                startActivity(intent);
-            }
-        });
-
-        Button finishbtn=(Button)findViewById(R.id.finishButton);
-        finishbtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                finish();
-            }
-
-        });
 }
 
     public class CustomList extends ArrayAdapter<String>{
@@ -102,5 +145,6 @@ public class SurveyActivity3 extends AppCompatActivity {
 
             return row;
         }
+
     }
 }
