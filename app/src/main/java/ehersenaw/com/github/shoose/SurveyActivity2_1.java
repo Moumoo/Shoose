@@ -9,10 +9,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class SurveyActivity2_1 extends AppCompatActivity {
     int surveyResult=0;
+    int styleCheck;
+    boolean style[] = {false,false,false,false,false,false,false,false,false,false};
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -31,25 +34,36 @@ public class SurveyActivity2_1 extends AppCompatActivity {
         nextbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(SurveyActivity2_1.this);
-                alertDialogBuilder.setMessage("상품 평가를 시작합니다");
-                alertDialogBuilder.setPositiveButton("네",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(SurveyActivity2_1.this, SurveyActivity3.class);
-                                startActivityForResult(intent, surveyResult);
-                            }
-                        });
-                alertDialogBuilder.setNegativeButton("아니요",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                styleCheck=0;
+                for(int i=0; i<10; i++){
+                    if(style[i]==true)
+                        styleCheck++;
+                }
+                if(styleCheck==0)
+                    Toast.makeText(SurveyActivity2_1.this,"답변하지 않은 질문이 있습니다",Toast.LENGTH_SHORT).show();
+                else {
+                    final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(SurveyActivity2_1.this);
+                    alertDialogBuilder.setMessage("상품 평가를 시작합니다");
+                    alertDialogBuilder.setCancelable(false);
+                    alertDialogBuilder.setPositiveButton("네",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    alertDialogBuilder.setCancelable(true);
+                                    Intent intent = new Intent(SurveyActivity2_1.this, SurveyActivity3.class);
+                                    startActivityForResult(intent, surveyResult);
+                                }
+                            });
+                    alertDialogBuilder.setNegativeButton("아니요",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    alertDialogBuilder.setCancelable(true);
+                                }
+                            });
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }
             }
         });
 
@@ -68,54 +82,64 @@ public class SurveyActivity2_1 extends AppCompatActivity {
 
         switch (view.getId()) {
             case R.id.slipper:
-                if (on) {
-
-                }
+                if(on)
+                    style[0]=true;
+                else
+                    style[0] = false;
                 break;
             case R.id.sandle:
-                if (on) {
-
-                }
+                if(on)
+                    style[1]=true;
+                else
+                    style[1]=false;
                 break;
             case R.id.sneakers:
-                if (on) {
-
-                }
+                if(on)
+                    style[2]=true;
+                else
+                    style[2]=false;
                 break;
             case R.id.slipon:
-                if (on) {
-
-                }
+                if(on)
+                    style[3]=true;
+                else
+                    style[3]=false;
                 break;
             case R.id.gym:
-                if (on) {
-
-                }
+                if(on)
+                    style[4]=true;
+                else
+                    style[4]=false;
                 break;
             case R.id.loafer:
-                if (on) {
-
-                }
+                if(on)
+                    style[5]=true;
+                else
+                    style[5]=false;
                 break;
             case R.id.hill:
-                if (on) {
-
-                }
+                if(on)
+                    style[6]=true;
+                else
+                    style[6]=false;
                 break;
             case R.id.boat:
-                if (on) {
-
-                }
+                if(on)
+                    style[7]=true;
+                else
+                    style[7]=false;
                 break;
             case R.id.walker:
-                if (on) {
-
-                }
+                if(on)
+                    style[8]=true;
+                else
+                    style[8]=false;
                 break;
             case R.id.boots:
-                if (on) {
-
-                }
+                if(on)
+                    style[9]=true;
+                else
+                    style[9]=false;
                 break;
         }
     }

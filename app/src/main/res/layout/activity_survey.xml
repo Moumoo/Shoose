@@ -39,37 +39,16 @@
             android:textSize="17dp"
             android:textStyle="bold" />
 
-        <ToggleButton
-            android:id="@+id/man"
-            android:layout_width="150dp"
+        <Button
+            android:id="@+id/getsex"
+            android:layout_width="250dp"
             android:layout_height="40dp"
             android:layout_below="@+id/sex"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
-            android:layout_weight="1"
             android:background="@drawable/custom_togglebtn2"
-            android:textOff="남성"
-            android:textOn="남성"
-            android:onClick="onToggleClicked"/>
-
-        <ToggleButton
-            android:id="@+id/woman"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/sex"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn2"
-            android:textOff="여성"
-            android:textOn="여성"
-            android:onClick="onToggleClicked" />
+            android:hint="클릭하여 성별을 선택하세요"
+            android:onClick="open"/>
 
         <!-- 나이 -->
         <TextView
@@ -78,106 +57,23 @@
             android:layout_height="wrap_content"
             android:background="@drawable/title"
             android:gravity="center_horizontal"
-            android:layout_below="@+id/man"
+            android:layout_below="@+id/getsex"
             android:layout_marginTop="30dp"
             android:text="당신의 연령대"
             android:textColor="#eeeeee"
             android:textSize="17dp"
             android:textStyle="bold" />
 
-        <ToggleButton
-            android:id="@+id/one"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/age"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn"
-            android:textOff="10대 이하"
-            android:textOn="10대 이하"
-            android:onClick="onToggleClicked" />
-
-        <ToggleButton
-            android:id="@+id/ten"
-            android:layout_width="100dp"
+        <Button
+            android:id="@+id/getage"
+            android:layout_width="250dp"
             android:layout_height="40dp"
             android:layout_below="@+id/age"
             android:layout_centerInParent="true"
-            android:layout_marginStart="130dp"
-            android:layout_marginLeft="130dp"
             android:layout_marginTop="10dp"
-            android:layout_weight="1"
             android:background="@drawable/custom_togglebtn"
-            android:textOff="10대"
-            android:textOn="10대"
-            android:onClick="onToggleClicked" />
-
-        <ToggleButton
-            android:id="@+id/twenty"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/age"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn"
-            android:textOff="20대"
-            android:textOn="20대"
-            android:onClick="onToggleClicked"/>
-
-        <ToggleButton
-            android:id="@+id/thirty"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/one"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn"
-            android:textOff="30대"
-            android:textOn="30대"
-            android:onClick="onToggleClicked"/>
-
-        <ToggleButton
-            android:id="@+id/forty"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/one"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="130dp"
-            android:layout_marginLeft="130dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn"
-            android:textOff="40대"
-            android:textOn="40대"
-            android:onClick="onToggleClicked"/>
-
-        <ToggleButton
-            android:id="@+id/fifty"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/one"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_togglebtn"
-            android:textOff="50대 이상"
-            android:textOn="50대 이상"
-            android:onClick="onToggleClicked"/>
+            android:hint="클릭하여 연령대를 선택하세요"
+            android:onClick="open"/>
 
         <!-- 사이즈 -->
         <TextView
@@ -186,7 +82,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/title"
             android:gravity="center_horizontal"
-            android:layout_below="@+id/thirty"
+            android:layout_below="@+id/getage"
             android:layout_marginTop="30dp"
             android:text="당신의 발 사이즈"
             android:textColor="#eeeeee"
@@ -195,7 +91,7 @@
 
         <Button
             android:id="@+id/feet"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="40dp"
             android:layout_below="@+id/size"
             android:layout_centerInParent="true"
