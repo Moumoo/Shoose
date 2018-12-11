@@ -207,19 +207,18 @@ public class RequestHTTPURLConnection {
 
             if (j_obj.has("Cookie")) {
                 String _token = j_obj.get("Cookie").toString();
-                Log.d(TAG, "requestByGet: "+_token);
+//                Log.d(TAG, "requestByGet: "+_token);
                 _token = "user="+_token;
                 urlConn.setRequestProperty("Cookie", _token);
-                Log.i("user_token", _token);
+//                Log.i("user_token", _token);
                 j_obj.remove("Cookie");
             }
 
             String response;
             int responseCode = urlConn.getResponseCode();
-            Log.d("responseCode", String.format("%d",responseCode));
+            Log.d(TAG, "requestByGet: eee"+responseCode);
 
             if (responseCode != HttpURLConnection.HTTP_OK) {
-                Log.d(TAG, "requestByGet: "+responseCode);
                 if (responseCode == HttpURLConnection.HTTP_CONFLICT) {
                     // During Sign up
                     throw new CustomizedException("CONFLICT");
