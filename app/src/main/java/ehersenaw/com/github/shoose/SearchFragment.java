@@ -479,7 +479,7 @@ public class SearchFragment extends Fragment {
 
             String message;
             RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
-            String response = requestHTTPURLConnection.requestByGet(url, values);;
+            String response = requestHTTPURLConnection.requestByGet(url, values);
 
             try {
                 JSONObject jsonObj_response = new JSONObject(response);

@@ -1,14 +1,18 @@
 package ehersenaw.com.github.shoose;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.lang.reflect.Array;
@@ -26,10 +35,25 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static com.nhn.android.naverlogin.ui.view.OAuthLoginButton.TAG;
+
 public class RecommendationFragment extends Fragment{
     String selected_time = "전체";
     String selected_occasion = "전체";
     JSONParser jsonparser = new JSONParser();
+    ArrayList<Product> originProducts = jsonparser.doJSONParse("[]");
+    ArrayList<Product> products = originProducts;
+    String Token="";
+    int SN=0;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(getActivity() !=null && getActivity() instanceof TabActivity){
+            Token = ((TabActivity)getActivity()).getToken();
+            SN = ((TabActivity)getActivity()).getSN();
+        }
+    }
 
     @Nullable
     @Override
@@ -73,7 +97,8 @@ public class RecommendationFragment extends Fragment{
             }
         });
 
-        final LinearLayout containerLayout = new LinearLayout(this.getActivity());
+        final LinearLayout containerLayout = new LinearLayout(getActivity());
+        containerLayout.setOrientation(LinearLayout.VERTICAL);
         LinearLayout inLayout = (LinearLayout) view.findViewById(R.id.inLayout);
         inLayout.addView(containerLayout);
 
@@ -83,16 +108,11 @@ public class RecommendationFragment extends Fragment{
 
             @Override
             public void onClick(View v) {
-                ArrayList<Product> products = jsonparser.doJSONParse("[{'product_SN':1,'type':'부츠','name':'나이키개간지신발1','price':13000,'brand':'나이키','img_url':'https://www.kicksusa.com/media/wysiwyg/brands/nike/Running.jpg','point':'3.0','shop_url':'https://m.sports.naver.com/kbaseball/news/read.nhn?oid=081&aid=0002961772'},{'product_SN':2,'type':'런닝/피트니스화','name':'나이키개간지신발2','price':130000,'brand':'나이키','img_url':'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxO8ny4koS57SX5AMinZmheapT1ayn_OnO7JqYYSVcsTydqVrS','point':'4.0','shop_url':'https://m.sports.naver.com/kbaseball/news/read.nhn?oid=081&aid=0002961772'}]");
-                //products filtering
-                products = productsFilteringByTime(products);
-                products = productsFilteringByOccasion(products);
-                containerLayout.setOrientation(LinearLayout.VERTICAL);
                 containerLayout.removeAllViewsInLayout();
-                for(int i=0;i<products.size();i++){
-                    CustomProductLayout customProductLayout = new CustomProductLayout(getActivity(), products.get(i));
-                    containerLayout.addView((View)customProductLayout);
-                }
+                //서버연동
+                GetRecommendTask getRecommendTask = new GetRecommendTask(Token, containerLayout);
+                getRecommendTask.execute();
+
             }
         });
 
@@ -111,7 +131,7 @@ public class RecommendationFragment extends Fragment{
                 return fillteredItems;
             case "겨울":
                 for(int i=0;i<products.size();i++){
-                    if(products.get(i).type.indexOf("슬리퍼")<0) fillteredItems.add(products.get(i));
+                    if(products.get(i).type.indexOf("샌들")<0) fillteredItems.add(products.get(i));
                 }
                 return fillteredItems;
             default: return products;
@@ -125,12 +145,12 @@ public class RecommendationFragment extends Fragment{
                 return products;
             case "포멀":
                 for(int i=0;i<products.size();i++){
-                    if(products.get(i).type.indexOf("샌들/플리플랍/슬리퍼")<0 && products.get(i).type.indexOf("캔버스/단화")<0 && products.get(i).type.indexOf("농구화")<0 && products.get(i).type.indexOf("런닝/피트니스화")<0) fillteredItems.add(products.get(i));
+                    if(products.get(i).type.indexOf("샌들")<0 && products.get(i).type.indexOf("슬립온")<0 && products.get(i).type.indexOf("런닝화")<0 && products.get(i).type.indexOf("컨버스화")<0) fillteredItems.add(products.get(i));
                 }
                 return fillteredItems;
             case "캐주얼":
                 for(int i=0;i<products.size();i++){
-                    if(products.get(i).type.indexOf("구두")<0 && products.get(i).type.indexOf("부츠")<0&& products.get(i).type.indexOf("힐/펌프스")<0 && products.get(i).type.indexOf("로퍼")<0) fillteredItems.add(products.get(i));
+                    if(products.get(i).type.indexOf("구두")<0 && products.get(i).type.indexOf("부츠")<0&& products.get(i).type.indexOf("힐")<0 ) fillteredItems.add(products.get(i));
                 }
                 return fillteredItems;
             default: return products;
@@ -173,14 +193,8 @@ public class RecommendationFragment extends Fragment{
 
                 @Override
                 public void onClick(View v) {
-//                    Toast t = Toast.makeText(getActivity(), shoose.name, Toast.LENGTH_SHORT);
-//                    t.show();
-                    FragmentManager fm = getFragmentManager();
-                    ProductDetailDialogFragment productDetailDialogFragment = new ProductDetailDialogFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("shoose",shoose);
-                    productDetailDialogFragment.setArguments(bundle);
-                    productDetailDialogFragment.show(fm,shoose.pname);
+                    LoadDetailTask loadDetailTask = new LoadDetailTask(shoose,Token);
+                    loadDetailTask.execute();
                 }
             });
 
@@ -222,8 +236,137 @@ public class RecommendationFragment extends Fragment{
             }catch (InterruptedException e){
                 e.printStackTrace();
             }
+        }
+
+        public class LoadDetailTask extends AsyncTask<Void,Void,String> {
+            private ContentValues values;
+            private String token;
+            private Product shoose;
+
+            LoadDetailTask(Product shoose, String token){
+                this.shoose = shoose;
+                this.token = token;
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                String url = "http://13.125.41.85:3000/api/prod/like/"+SN+"/"+shoose.pid;
+                Log.d(TAG, "doInBackground: ddd : "+url);
+                values = new ContentValues();
+                values.clear();
+                values.put("Cookie",token);
+
+                String message;
+                RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
+
+                String response = requestHTTPURLConnection.requestByGet(url, values);
+                return response;
+            }
+
+            @Override
+            protected void onPostExecute(final String message) {
+                if(message!=null){
+                    if(message.equals("HTTP_NOT_FOUND")){
+                        Log.d(TAG, "onPostExecute: ddd : 0점입니당");
+                        shoose.user_score = 0;
+
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("shoose",shoose);
+
+                        FragmentManager fm = getFragmentManager();
+                        ProductDetailDialogFragment productDetailDialogFragment = new ProductDetailDialogFragment();
+                        productDetailDialogFragment.setArguments(bundle);
+                        productDetailDialogFragment.show(fm,shoose.pname);
+                    }
+                    else {
+                        try {
+                            JSONArray jsonArr_response = new JSONArray(message);
+                            JSONObject jsonObj = (JSONObject) jsonArr_response.get(0);
+
+                            Log.d(TAG, "onPostExecute: ddd : "+jsonObj.get("score").getClass().getName());
+                            switch (jsonObj.get("score").getClass().getName()){
+                                case "java.lang.Integer":
+                                    shoose.user_score = ((Integer)jsonObj.get("score")).doubleValue();
+                                    break;
+                                default:
+                                    shoose.user_score = (double) jsonObj.get("score");
+                                    break;
+                            }
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("shoose",shoose);
+
+                            FragmentManager fm = getFragmentManager();
+                            ProductDetailDialogFragment productDetailDialogFragment = new ProductDetailDialogFragment();
+                            productDetailDialogFragment.setArguments(bundle);
+                            productDetailDialogFragment.show(fm,shoose.pname);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }else{
+                    Toast.makeText(getActivity(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        }
 
 
+
+    }
+
+    public class GetRecommendTask extends AsyncTask<Void, Void, String> {
+        private ContentValues values;
+        private String token;
+        private LinearLayout containerLayout;
+        GetRecommendTask(String token, LinearLayout containerLayout) {
+            this.token = token;
+            this.containerLayout = containerLayout;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String url= "http://13.125.41.85:3000/api/recommend/";
+            url =url+SN;
+
+            values = new ContentValues();
+            values.clear();
+            values.put("Cookie",token);
+
+            String message;
+            RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
+            String response = requestHTTPURLConnection.requestByGet(url, values);
+
+            try {
+                JSONObject jsonObj_response = new JSONObject(response);
+                return jsonObj_response.get("items").toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // Unreachable with normal situation.
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(final String message) {
+            if(message!=null){
+
+                originProducts = jsonparser.doJSONParse(message);
+                products = originProducts;
+                //products filtering
+                products = productsFilteringByTime(products);
+                products = productsFilteringByOccasion(products);
+
+                for(int i=0;i<products.size();i++){
+                    CustomProductLayout customProductLayout = new CustomProductLayout(getActivity(), products.get(i));
+                    containerLayout.addView((View)customProductLayout);
+                }
+            }else{
+                Toast.makeText(getActivity(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
     }
+
 }
