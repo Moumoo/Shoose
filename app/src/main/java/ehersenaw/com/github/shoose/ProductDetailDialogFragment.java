@@ -225,6 +225,13 @@ public class ProductDetailDialogFragment extends DialogFragment{
             RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
 
             String response = requestHTTPURLConnection.requestByGet(url, values);
+            if (response.equals("HTTP_NOT_FOUND")) return response;
+            try {
+                JSONObject jsonObj_response = new JSONObject(response);
+                return jsonObj_response.get("link").toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return response;
         }
 
@@ -232,16 +239,21 @@ public class ProductDetailDialogFragment extends DialogFragment{
         protected void onPostExecute(final String message) {
             if(message!=null){
                 Log.d(TAG, "onPostExecute: link_return : "+message);
+                if (message.equals("HTTP_NOT_FOUND")){
+                    Log.d(TAG, "onPostExecute: RRR");
+                    Toast.makeText(getActivity(),"죄송합니다. 현재 상품이 검색되지 않습니다.",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 try {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(message));
                     startActivity(browserIntent);
                 }catch (Exception e){
-                    Toast.makeText(getContext(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT);
+                    Toast.makeText(getActivity(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT).show();
                     return;
                 }
 //                }
             }else{
-                Toast.makeText(getContext(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT).show();
                 return;
             }
         }
