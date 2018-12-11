@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#eeeeee"
+    android:background="#FFFFFFFF"
     android:padding="8dp"
     android:gravity="center">
     <ImageView
@@ -31,5 +31,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="30dp"
         android:numStars="5"
+        android:rating="0"
         android:stepSize="1.0"/>
 </RelativeLayout>

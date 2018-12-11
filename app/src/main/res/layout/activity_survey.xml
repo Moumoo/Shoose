@@ -33,7 +33,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/title"
-            android:text="당신의 성별은?"
+            android:gravity="center_horizontal"
+            android:text="당신의 성별"
             android:textColor="#eeeeee"
             android:textSize="17dp"
             android:textStyle="bold" />
@@ -76,9 +77,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/title"
+            android:gravity="center_horizontal"
             android:layout_below="@+id/man"
             android:layout_marginTop="30dp"
-            android:text="당신의 연령대는?"
+            android:text="당신의 연령대"
             android:textColor="#eeeeee"
             android:textSize="17dp"
             android:textStyle="bold" />
@@ -183,25 +185,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/title"
+            android:gravity="center_horizontal"
             android:layout_below="@+id/thirty"
             android:layout_marginTop="30dp"
-            android:text="당신의 발 사이즈는?"
+            android:text="당신의 발 사이즈"
             android:textColor="#eeeeee"
             android:textSize="17dp"
             android:textStyle="bold" />
 
-        <ToggleButton
+        <Button
             android:id="@+id/feet"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/size"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
-            android:layout_weight="1"
             android:background="@drawable/custom_togglebtn3"
-            android:textOff="클릭하여 발 사이즈를 선택하세요"
-            android:textOn="발 사이즈 선택 완료"
+            android:hint="클릭하여 발 사이즈를 선택하세요"
             android:onClick="open"/>
 
 

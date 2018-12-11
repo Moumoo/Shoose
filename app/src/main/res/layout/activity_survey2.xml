@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/title"
-            android:text="당신이 선호하는 색상은?"
+            android:gravity="center_horizontal"
+            android:text="선호하는 색상"
             android:textColor="#eeeeee"
             android:textSize="17dp"
             android:textStyle="bold" />
@@ -209,9 +210,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/title"
+            android:gravity="center_horizontal"
             android:layout_below="@+id/check_color3"
             android:layout_marginTop="20dp"
-            android:text="당신이 선호하는 브랜드는?"
+            android:text="선호하는 브랜드"
             android:textColor="#eeeeee"
             android:textSize="17dp"
             android:textStyle="bold" />

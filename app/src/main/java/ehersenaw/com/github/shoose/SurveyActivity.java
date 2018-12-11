@@ -1,8 +1,10 @@
 package ehersenaw.com.github.shoose;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class SurveyActivity extends AppCompatActivity {
+    int surveyResult=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -22,10 +25,17 @@ public class SurveyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(SurveyActivity.this, SurveyActivity2.class);
-                startActivity(intent);
+                startActivityForResult(intent, surveyResult);
             }
         });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode==surveyResult && resultCode== Activity.RESULT_OK){
+            setResult(Activity.RESULT_OK);
+            finish();
+        }
     }
 
     public void onToggleClicked(View view) {
@@ -93,7 +103,8 @@ public class SurveyActivity extends AppCompatActivity {
         alertDialogBuilder.setItems(sizes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int size) {
-                Toast.makeText(getApplicationContext(),"발사이즈 : "+ sizes[size],Toast.LENGTH_SHORT).show();
+                Button feetbtn = (Button)findViewById(R.id.feet);
+                feetbtn.setText(sizes[size]);
             }
         });
         AlertDialog alert = alertDialogBuilder.create();

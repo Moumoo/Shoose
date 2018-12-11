@@ -46,8 +46,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/title"
+            android:gravity="center_horizontal"
             android:layout_marginTop="5dp"
-            android:text="당신이 선호하는 신발 스타일은?"
+            android:text="선호하는 신발 스타일"
             android:textColor="#eeeeee"
             android:textSize="17dp"
             android:textStyle="bold" />
