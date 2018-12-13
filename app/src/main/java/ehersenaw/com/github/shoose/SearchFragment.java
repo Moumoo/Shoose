@@ -453,7 +453,7 @@ public class SearchFragment extends Fragment {
 //                        Log.d(TAG, "onPostExecute : ddd : "+message);
                     }
                 }else{
-                    Toast.makeText(getContext(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT);
+                    Toast.makeText(getActivity(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -479,7 +479,7 @@ public class SearchFragment extends Fragment {
 
             String message;
             RequestHTTPURLConnection requestHTTPURLConnection = new RequestHTTPURLConnection();
-            String response = requestHTTPURLConnection.requestByGet(url, values);;
+            String response = requestHTTPURLConnection.requestByGet(url, values);
 
             try {
                 JSONObject jsonObj_response = new JSONObject(response);
@@ -498,7 +498,7 @@ public class SearchFragment extends Fragment {
                 originProducts = jsonparser.doJSONParse(message);
                 products = originProducts;
             }else{
-                Toast.makeText(getContext(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT).show();
                 return;
             }
         }
