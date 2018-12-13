@@ -18,10 +18,29 @@ public class SurveyActivity2 extends AppCompatActivity {
     boolean brand[]={false,false,false,false,false,false,false,false,false,false,false,false};
     boolean colorCheck=false,brandCheck=false;
 
+    String categoryColor[]={"red","orange","yellow","green","blue","purple","gold","silve","white","gray","black","beige"};
+    String categorybrand[]={"나이키","아디다스","휠라","컨버스","반스","리복","푸마","라코스테","락포트","소다","크록스","고세"};
+
+    int mSN=0;
+    String mGender="";
+    String mAge="";
+    String mSize="";
+    String mToken="";
+    String preferColor[]=new String[12];
+    String preferBrand[]=new String[12];
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey2);
+
+        //receive data from SurveyActivity
+        Bundle bundle = getIntent().getExtras();
+        mToken=bundle.getString("Token");
+        mSN=bundle.getInt("SN");
+        mGender=bundle.getString("gender");
+        mAge=bundle.getString("age");
+        mSize=bundle.getString("size");
 
         Button backbtn=(Button)findViewById(R.id.backButton);
         backbtn.setOnClickListener(new View.OnClickListener(){
@@ -38,14 +57,29 @@ public class SurveyActivity2 extends AppCompatActivity {
                 colorCheck=false;
                 brandCheck=false;
                 for(int i=0; i<12; i++){
-                    if(color[i]==true)
-                        colorCheck=true;
-                    if(brand[i]==true)
-                        brandCheck=true;
+                    if(color[i]==true) {
+                        colorCheck = true;
+                        preferColor[i]=categoryColor[i];
+                    }
+                    else
+                        preferColor[i]=null;
+                    if(brand[i]==true) {
+                        brandCheck = true;
+                        pref
+                    }
+                    else
+
                 }
 
                 if(colorCheck&&brandCheck) {
                     Intent intent = new Intent(SurveyActivity2.this, SurveyActivity2_1.class);
+                    intent.putExtra("Token", mToken);
+                    intent.putExtra("SN",mSN);
+                    intent.putExtra("gender",mGender);
+                    intent.putExtra("age",mAge);
+                    intent.putExtra("size",mSize);
+                    intent.putExtra("size",preferColor);
+                    intent.putExtra("size",preferBrand);
                     startActivityForResult(intent, surveyResult);
                 }
                 else

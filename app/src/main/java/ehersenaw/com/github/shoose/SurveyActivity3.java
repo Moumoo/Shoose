@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class SurveyActivity3 extends AppCompatActivity {
+    //GET data from server(pname,img_url) and POST data to server(SN, score)
 
     ListView list;
     String[] names={"신발 1","신발 2", "신발 3","신발 4","신발 5","신발 6","신발 7","신발 8","신발 9",
@@ -37,10 +38,19 @@ public class SurveyActivity3 extends AppCompatActivity {
 
     private boolean lastitemFlag=false;
 
+    int mSN=0;
+    String mToken="";
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey3);
+
+        //receive data from SurveyActivity2_1
+        Bundle bundle = getIntent().getExtras();
+        mToken=bundle.getString("Token");
+        mSN=bundle.getInt("SN");
+
 
         Button backbtn = (Button)findViewById(R.id.back);
         backbtn.setOnClickListener(new View.OnClickListener() {

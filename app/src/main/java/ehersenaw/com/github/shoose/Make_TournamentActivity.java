@@ -20,8 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Make_TournamentActivity extends AppCompatActivity{
-    //서버에서 이미지들 받아와서 이미지와 url저장
-    //팝업에 url 바로가기 추가
+    //receive SN from TabActivity
+    //GET data from server(pid,img_url) and POST data to server(pid, score)
+    //GET link from server and provide it to user
 
     ImageView imgbtn1, imgbtn2, imgwin;
 

@@ -13,14 +13,27 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class SurveyActivity2_1 extends AppCompatActivity {
+    //POST user data to server(style)
+
     int surveyResult=0;
     int styleCheck;
     boolean style[] = {false,false,false,false,false,false,false,false,false,false};
+    String categoryStyle[]={"슬리퍼","샌들","스니커즈","슬립온","운동화","로퍼/플랫","힐/펌프스","워커","보트슈즈","부츠"};
+
+    int mSN=0;
+    String mToken="";
+    String mPreferStyle[];
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey2_1);
+
+        //receive data from SurveyActivity2
+        Bundle bundle = getIntent().getExtras();
+        mToken=bundle.getString("Token");
+        mSN=bundle.getInt("SN");
+
 
         Button backbtn=(Button)findViewById(R.id.backButton);
         backbtn.setOnClickListener(new View.OnClickListener(){
@@ -42,6 +55,15 @@ public class SurveyActivity2_1 extends AppCompatActivity {
                 if(styleCheck==0)
                     Toast.makeText(SurveyActivity2_1.this,"답변하지 않은 질문이 있습니다",Toast.LENGTH_SHORT).show();
                 else {
+                    int order=0;
+                    //delete null
+                    for(int i=0; i<styleCheck; i++){
+                        if(style[i]==true){
+                            mPreferStyle[order]=categoryStyle[i];
+                            order++;
+                        }
+                    }
+
                     final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(SurveyActivity2_1.this);
                     alertDialogBuilder.setMessage("상품 평가를 시작합니다");
                     alertDialogBuilder.setCancelable(false);
@@ -51,6 +73,8 @@ public class SurveyActivity2_1 extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     alertDialogBuilder.setCancelable(true);
                                     Intent intent = new Intent(SurveyActivity2_1.this, SurveyActivity3.class);
+                                    intent.putExtra("Token", mToken);
+                                    intent.putExtra("SN",mSN);
                                     startActivityForResult(intent, surveyResult);
                                 }
                             });
