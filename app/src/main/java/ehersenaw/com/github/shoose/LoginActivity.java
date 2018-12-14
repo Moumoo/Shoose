@@ -476,6 +476,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     intent.putExtra("hasNAVEROAuth", false);
                     intent.putExtra("ID", mID);
                     intent.putExtra("password", mPassword);
+
+                    //Moumoo modify from here
+                    intent.putExtra("SN", SN);
+                    intent.putExtra("Token",Token);
+                    //to here
+
                     // TODO: If SurveyActivity needs SN & Token, SurveyActivity should request those to server by ID&password.
                     // TODO: If needed, reference LoginActivity(this activity)'s UserLoginTask.
                     Log.i("intent to survey", intent.getExtras().toString());

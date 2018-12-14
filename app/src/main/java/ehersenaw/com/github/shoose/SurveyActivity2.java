@@ -3,25 +3,49 @@ package ehersenaw.com.github.shoose;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+
 public class SurveyActivity2 extends AppCompatActivity {
     int surveyResult=0;
     boolean color[]={false,false,false,false,false,false,false,false,false,false,false,false};
     boolean brand[]={false,false,false,false,false,false,false,false,false,false,false,false};
-    boolean colorCheck=false,brandCheck=false;
+    int colorCheck,brandCheck;
+
+    String categoryColor[]={"red","orange","yellow","green","blue","purple","gold","silve","white","gray","black","beige"};
+    String categorybrand[]={"나이키","아디다스","휠라","컨버스","반스","리복","푸마","라코스테","락포트","소다","크록스","고세"};
+
+    int mSN=0;
+    String mToken="";
+    String mColor="";
+    String mBrand="";
+    String url = "http://13.125.41.85:3000/api/survey/profile";
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey2);
+
+        //receive data from SurveyActivity
+        Bundle bundle = getIntent().getExtras();
+        mToken=bundle.getString("Token");
+        mSN=bundle.getInt("SN");
 
         Button backbtn=(Button)findViewById(R.id.backButton);
         backbtn.setOnClickListener(new View.OnClickListener(){
@@ -35,17 +59,27 @@ public class SurveyActivity2 extends AppCompatActivity {
         nextbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                colorCheck=false;
-                brandCheck=false;
+                colorCheck=0;
+                brandCheck=0;
                 for(int i=0; i<12; i++){
                     if(color[i]==true)
-                        colorCheck=true;
+                        colorCheck++;
                     if(brand[i]==true)
-                        brandCheck=true;
+                        brandCheck++;
                 }
+                if(colorCheck*brandCheck!=0) {
+                    for(int i=0; i<12; i++){
+                        if(color[i]==true)
+                            mColor+=" "+categoryColor[i];
+                        if(brand[i]==true)
+                            mBrand+=" "+categorybrand[i];
+                    }
 
-                if(colorCheck&&brandCheck) {
+                    new SurveyActivity2.SendTask().execute(url);
+
                     Intent intent = new Intent(SurveyActivity2.this, SurveyActivity2_1.class);
+                    intent.putExtra("Token", mToken);
+                    intent.putExtra("SN",mSN);
                     startActivityForResult(intent, surveyResult);
                 }
                 else
@@ -213,6 +247,73 @@ public class SurveyActivity2 extends AppCompatActivity {
                 else
                     brand[11]=false;
                 break;
+        }
+    }
+
+    private class SendTask extends AsyncTask<String, Void, Void> {
+        private String Content;
+        private int SN=mSN;
+        private String Token=mToken,Color=mColor,Brand=mBrand;
+        private String Error = null;
+        String data = "";
+        protected void onPreExecute() {
+            try {
+                // 요청 파라미터 설정
+                data += "&" + URLEncoder.encode("Cookie", "UTF-8") + "=" + Token
+                        +"&" + URLEncoder.encode("SN", "UTF-8") + "=" + SN
+                        +"&" + URLEncoder.encode("prefer_color", "UTF-8") + "=" + Color
+                        +"&" + URLEncoder.encode("prefer_brand", "UTF-8") + "=" + Brand;
+            } catch (UnsupportedEncodingException e) {
+                // 에러 표시
+                e.printStackTrace();
+            }
+        }
+        // onPreExecute 메소드 이후 호출
+        protected Void doInBackground(String... urls) {//클릭이벤트 실행시 파라미터값 urls= LongOperation().execute(serverURL);
+            BufferedReader reader = null;
+            // 데이터 전송
+            try
+            {
+                // Lab code here....
+                //Data를 보낼 URL =
+                URL url = new URL(urls[0]);
+
+                //POST data 요청사항을 OutputStreamWriter 를 이용하여 전송
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);//onPreExecute 메소드의 data 변수의 파라미터 내용을 POST 전송명령
+                wr.flush();//OutputStreamWriter 버퍼 메모리 비우기
+                //PHP 서버 응답값을 변수에 저장
+                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                //서버 응답변수 reader 에서 내용을 라인단위 문자열로 만듬
+                while ((line = reader.readLine()) != null) {
+                    //여기가 결과 값 가져오는데!
+                    //Log.e("결과",line);
+                    Log.e("messgae",line);
+                }
+                //위 StringBuilder 값을 : sb를 Content 변수에 저장함
+                Content = sb.toString();
+            } catch (Exception ex)
+            {
+                Error = ex.getMessage();
+            } finally
+            {
+                try
+                {
+                    reader.close();
+                } catch (Exception ex) {
+                }
+            }
+            return null;
+        }
+        protected void onPostExecute(Void unused) {
+            // UI Element 호출 가능
+
+            //여기서는 후처리
+
         }
     }
 }
