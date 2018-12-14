@@ -495,6 +495,8 @@ public class SearchFragment extends Fragment {
         @Override
         protected void onPostExecute(final String message) {
             if(message!=null){
+                originProducts = jsonparser.doJSONParse(message);
+                products = originProducts;
             }else{
                 Toast.makeText(getActivity(),"서버 접속에 실패했습니다.",Toast.LENGTH_SHORT).show();
                 return;

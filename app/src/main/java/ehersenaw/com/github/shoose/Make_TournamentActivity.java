@@ -3,8 +3,10 @@ package ehersenaw.com.github.shoose;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class Make_TournamentActivity extends AppCompatActivity{
     //receive SN from TabActivity
     //GET data from server(pid,img_url) and POST data to server(pid, score)
@@ -30,6 +34,7 @@ public class Make_TournamentActivity extends AppCompatActivity{
             R.drawable.s7,R.drawable.s8,R.drawable.s9,R.drawable.s10,R.drawable.s11,R.drawable.s12,
             R.drawable.s13,R.drawable.s14,R.drawable.s15,R.drawable.s16};//16강
 
+
     int index=0, phase_num=1,win_index=-1;
     Integer phase2[]=new Integer[8];
     Integer phase3[]=new Integer[4];
@@ -37,10 +42,17 @@ public class Make_TournamentActivity extends AppCompatActivity{
 
     float winnerScore=0;
 
+    int mSN=0;
+    String mToken="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_tournament);
+
+        Bundle bundle = getIntent().getExtras();
+        mToken=bundle.getString("Token");
+        mSN=bundle.getInt("SN");
 
         imgbtn1=(ImageView)findViewById(R.id.can1);
         imgbtn2=(ImageView)findViewById(R.id.can2);

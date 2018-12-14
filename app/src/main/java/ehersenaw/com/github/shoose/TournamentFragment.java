@@ -1,5 +1,6 @@
 package ehersenaw.com.github.shoose;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 public class TournamentFragment extends Fragment{
+    String Token="";
+    int SN=0;
 
     @NonNull
     @Override
@@ -18,6 +21,14 @@ public class TournamentFragment extends Fragment{
         final View view = inflater.inflate(R.layout.tournament_fragment,container,false);
 
         return inflater.inflate(R.layout.tournament_fragment,container,false);
+    }
+
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(getActivity() !=null && getActivity() instanceof TabActivity){
+            Token = ((TabActivity)getActivity()).getToken();
+            SN = ((TabActivity)getActivity()).getSN();
+        }
     }
 
     @Override
@@ -29,6 +40,8 @@ public class TournamentFragment extends Fragment{
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(getActivity(), Make_TournamentActivity.class);
+                intent.putExtra("Token", Token);
+                intent.putExtra("SN",SN);
                 startActivity(intent);
             }
         });

@@ -6,8 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.media.Rating;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +23,19 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+
 public class SurveyActivity3 extends AppCompatActivity {
     //GET data from server(pname,img_url) and POST data to server(SN, score)
 
     ListView list;
-    String[] names={"신발 1","신발 2", "신발 3","신발 4","신발 5","신발 6","신발 7","신발 8","신발 9",
-            "신발 10","신발 11","신발 12","신발 13","신발 14","신발 15"};
+    int [] names={15,95,150,250,300,350,400,500,550,600,700,730,800,900,1000};
 
     Integer[] images={R.drawable.s1,R.drawable.s2,R.drawable.s3,R.drawable.s4,R.drawable.s5,R.drawable.s6,
             R.drawable.s7,R.drawable.s8,R.drawable.s9,R.drawable.s10,R.drawable.s11,R.drawable.s12,
@@ -40,6 +49,8 @@ public class SurveyActivity3 extends AppCompatActivity {
 
     int mSN=0;
     String mToken="";
+
+    String url = "http://13.125.41.85:3000/api/survey/profile";
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -117,12 +128,12 @@ public class SurveyActivity3 extends AppCompatActivity {
             //firstVisibleItem==첫번째 아이템 번호
         });
 
-}
+    }
 
     public class CustomList extends ArrayAdapter<String>{
         private final Activity context;
         public CustomList(Activity context){
-            super(context, R.layout.listitem,names);
+            super(context, R.layout.listitem);
             this.context=context;
         }
 
@@ -137,9 +148,6 @@ public class SurveyActivity3 extends AppCompatActivity {
 
             ImageView imageView=(ImageView)row.findViewById(R.id.image);
             imageView.setImageResource(images[position]);
-
-            TextView nameView=(TextView)row.findViewById(R.id.name);
-            nameView.setText(names[position]);
 
             RatingBar rb = (RatingBar)row.findViewById(R.id.rating);
             rb.setRating(ratings[position]);
@@ -156,5 +164,74 @@ public class SurveyActivity3 extends AppCompatActivity {
             return row;
         }
 
+    }
+    private class SendTask extends AsyncTask<String, Void, Void> {
+        private String Content;
+        private int SN=mSN;
+        private String Token=mToken;
+        private String Error = null;
+        String data = "";
+        protected void onPreExecute() {
+            try {
+                // 요청 파라미터 설정
+                data += "&" + URLEncoder.encode("Cookie", "UTF-8") + "=" + Token
+                        +"&" + URLEncoder.encode("SN", "UTF-8") + "=" + SN;
+                for(int i=0; i<15; i++){
+                    data += "&" + URLEncoder.encode("pid", "UTF-8") + "=" + names[i]
+                            +"&" + URLEncoder.encode("score", "UTF-8") + "=" + (float)(ratings[i]/(2.0));
+                }
+
+            } catch (UnsupportedEncodingException e) {
+                // 에러 표시
+                e.printStackTrace();
+            }
+        }
+        // onPreExecute 메소드 이후 호출
+        protected Void doInBackground(String... urls) {//클릭이벤트 실행시 파라미터값 urls= LongOperation().execute(serverURL);
+            BufferedReader reader = null;
+            // 데이터 전송
+            try
+            {
+                // Lab code here....
+                //Data를 보낼 URL =
+                URL url = new URL(urls[0]);
+
+                //POST data 요청사항을 OutputStreamWriter 를 이용하여 전송
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);//onPreExecute 메소드의 data 변수의 파라미터 내용을 POST 전송명령
+                wr.flush();//OutputStreamWriter 버퍼 메모리 비우기
+                //PHP 서버 응답값을 변수에 저장
+                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                //서버 응답변수 reader 에서 내용을 라인단위 문자열로 만듬
+                while ((line = reader.readLine()) != null) {
+                    //여기가 결과 값 가져오는데!
+                    //Log.e("결과",line);
+                    Log.e("messgae",line);
+                }
+                //위 StringBuilder 값을 : sb를 Content 변수에 저장함
+                Content = sb.toString();
+            } catch (Exception ex)
+            {
+                Error = ex.getMessage();
+            } finally
+            {
+                try
+                {
+                    reader.close();
+                } catch (Exception ex) {
+                }
+            }
+            return null;
+        }
+        protected void onPostExecute(Void unused) {
+            // UI Element 호출 가능
+
+            //여기서는 후처리
+
+        }
     }
 }
